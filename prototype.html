@@ -385,31 +385,28 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
 <!-- ═══ STEP 2: NATIVE SHARE SHEET ═══ -->
 <div id="s-sharesheet" class="scr">
   <div class="frame-wrap">
-    <div class="mfr"><div class="mnotch"></div><div class="mscr" style="background:rgba(0,0,0,0.4); position:relative; overflow:hidden;">
-
-      <!-- Dimmed background — simulating app behind share sheet -->
-      <div style="padding:44px 14px 14px; opacity:0.3;">
-        <!-- Simulated app header -->
-        <div style="text-align:center; margin-bottom:16px;">
-          <div style="width:48px; height:48px; background:var(--mh-blue); border-radius:50%; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:800;">MH</div>
-          <div style="font-size:16px; font-weight:700; color:#fff;">Credit Hero Club</div>
-          <div style="font-size:12px; color:var(--g300); margin-top:2px;">Your credit score: 712</div>
-        </div>
-        <!-- Simulated referral card -->
-        <div style="background:#fff; border-radius:12px; padding:16px; text-align:center; margin-bottom:12px;">
-          <div style="font-size:13px; font-weight:700; margin-bottom:4px;">Refer Friends, Earn Rewards</div>
-          <div style="font-size:11px; color:var(--g500); margin-bottom:12px;">Share your unique link and earn points when friends sign up</div>
-          <div style="background:var(--mh-blue); color:#fff; padding:10px; border-radius:8px; font-size:13px; font-weight:600;">Share with Friends</div>
-        </div>
-        <!-- Simulated stats -->
-        <div style="background:#fff; border-radius:12px; padding:14px; display:flex; gap:8px; text-align:center;">
-          <div style="flex:1;"><div style="font-size:18px; font-weight:800; color:var(--mh-blue);">3</div><div style="font-size:9px; color:var(--g500);">Invited</div></div>
-          <div style="flex:1;"><div style="font-size:18px; font-weight:800; color:var(--mh-green);">1</div><div style="font-size:9px; color:var(--g500);">Joined</div></div>
-          <div style="flex:1;"><div style="font-size:18px; font-weight:800; color:var(--mh-gold);">50</div><div style="font-size:9px; color:var(--g500);">Points</div></div>
+    <div class="mfr"><div class="mnotch"></div>
+      <!-- Dimmed background -->
+      <div class="mscr" style="background:rgba(0,0,0,0.4);">
+        <div style="padding:44px 14px 14px; opacity:0.3;">
+          <div style="text-align:center; margin-bottom:16px;">
+            <div style="width:48px; height:48px; background:var(--mh-blue); border-radius:50%; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:800;">MH</div>
+            <div style="font-size:16px; font-weight:700; color:#fff;">Credit Hero Club</div>
+            <div style="font-size:12px; color:var(--g300); margin-top:2px;">Your credit score: 712</div>
+          </div>
+          <div style="background:#fff; border-radius:12px; padding:16px; text-align:center; margin-bottom:12px;">
+            <div style="font-size:13px; font-weight:700; margin-bottom:4px;">Refer Friends, Earn Rewards</div>
+            <div style="font-size:11px; color:var(--g500); margin-bottom:12px;">Share your unique link and earn points when friends sign up</div>
+            <div style="background:var(--mh-blue); color:#fff; padding:10px; border-radius:8px; font-size:13px; font-weight:600;">Share with Friends</div>
+          </div>
+          <div style="background:#fff; border-radius:12px; padding:14px; display:flex; gap:8px; text-align:center;">
+            <div style="flex:1;"><div style="font-size:18px; font-weight:800; color:var(--mh-blue);">3</div><div style="font-size:9px; color:var(--g500);">Invited</div></div>
+            <div style="flex:1;"><div style="font-size:18px; font-weight:800; color:var(--mh-green);">1</div><div style="font-size:9px; color:var(--g500);">Joined</div></div>
+            <div style="flex:1;"><div style="font-size:18px; font-weight:800; color:var(--mh-gold);">50</div><div style="font-size:9px; color:var(--g500);">Points</div></div>
+          </div>
         </div>
       </div>
-
-      <!-- iOS-style share sheet -->
+      <!-- iOS-style share sheet — positioned relative to .mfr, NOT inside .mscr -->
       <div style="position:absolute; bottom:0; left:0; right:0; z-index:50;">
         <div class="ann green" data-ann="NATIVE OS SHARE SHEET" style="background:#F2F2F7; border-radius:16px 16px 0 0; overflow:hidden;">
 
@@ -424,35 +421,30 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
             </div>
           </div>
 
-          <!-- App row — scrollable -->
+          <!-- App row -->
           <div style="display:flex; gap:4px; padding:16px 12px; overflow-x:auto; background:#fff;">
-            <!-- WhatsApp -->
             <div style="text-align:center; flex-shrink:0; width:64px;">
               <div style="width:48px; height:48px; background:#25D366; border-radius:12px; margin:0 auto 4px; display:flex; align-items:center; justify-content:center;">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
               </div>
               <div style="font-size:9px; color:var(--g600);">WhatsApp</div>
             </div>
-            <!-- Telegram -->
             <div style="text-align:center; flex-shrink:0; width:64px;">
               <div style="width:48px; height:48px; background:#0088CC; border-radius:12px; margin:0 auto 4px; display:flex; align-items:center; justify-content:center;">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
               </div>
               <div style="font-size:9px; color:var(--g600);">Telegram</div>
             </div>
-            <!-- Messages -->
             <div style="text-align:center; flex-shrink:0; width:64px;">
               <div style="width:48px; height:48px; background:#34C759; border-radius:12px; margin:0 auto 4px; display:flex; align-items:center; justify-content:center; font-size:22px; color:#fff;">💬</div>
               <div style="font-size:9px; color:var(--g600);">Messages</div>
             </div>
-            <!-- Signal -->
             <div style="text-align:center; flex-shrink:0; width:64px;">
               <div style="width:48px; height:48px; background:#3A76F0; border-radius:12px; margin:0 auto 4px; display:flex; align-items:center; justify-content:center; font-size:22px; color:#fff;">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/></svg>
               </div>
               <div style="font-size:9px; color:var(--g600);">Signal</div>
             </div>
-            <!-- AirDrop -->
             <div style="text-align:center; flex-shrink:0; width:64px;">
               <div style="width:48px; height:48px; background:var(--g200); border-radius:12px; margin:0 auto 4px; display:flex; align-items:center; justify-content:center; font-size:22px;">📡</div>
               <div style="font-size:9px; color:var(--g600);">AirDrop</div>
@@ -477,7 +469,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
 
         </div>
       </div>
-    </div></div>
+    </div>
 
     <div class="side">
       <div class="step-label v1">v1 — Step 2</div>
