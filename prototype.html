@@ -388,10 +388,24 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
     <div class="mfr"><div class="mnotch"></div><div class="mscr" style="background:rgba(0,0,0,0.4);">
 
       <!-- Dimmed background — simulating app behind share sheet -->
-      <div style="padding:44px 14px 14px; opacity:0.3;">
-        <div style="background:#fff; border-radius:12px; padding:16px; text-align:center;">
-          <div style="font-size:14px; font-weight:700;">Credit Hero Club</div>
-          <div style="font-size:11px; color:var(--g500);">Share your referral link</div>
+      <div style="padding:44px 14px 14px; opacity:0.3; min-height:100%;">
+        <!-- Simulated app header -->
+        <div style="text-align:center; margin-bottom:16px;">
+          <div style="width:48px; height:48px; background:var(--mh-blue); border-radius:50%; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:800;">MH</div>
+          <div style="font-size:16px; font-weight:700; color:#fff;">Credit Hero Club</div>
+          <div style="font-size:12px; color:var(--g300); margin-top:2px;">Your credit score: 712</div>
+        </div>
+        <!-- Simulated referral card -->
+        <div style="background:#fff; border-radius:12px; padding:16px; text-align:center; margin-bottom:12px;">
+          <div style="font-size:13px; font-weight:700; margin-bottom:4px;">Refer Friends, Earn Rewards</div>
+          <div style="font-size:11px; color:var(--g500); margin-bottom:12px;">Share your unique link and earn points when friends sign up</div>
+          <div style="background:var(--mh-blue); color:#fff; padding:10px; border-radius:8px; font-size:13px; font-weight:600;">Share with Friends</div>
+        </div>
+        <!-- Simulated stats -->
+        <div style="background:#fff; border-radius:12px; padding:14px; display:flex; gap:8px; text-align:center;">
+          <div style="flex:1;"><div style="font-size:18px; font-weight:800; color:var(--mh-blue);">3</div><div style="font-size:9px; color:var(--g500);">Invited</div></div>
+          <div style="flex:1;"><div style="font-size:18px; font-weight:800; color:var(--mh-green);">1</div><div style="font-size:9px; color:var(--g500);">Joined</div></div>
+          <div style="flex:1;"><div style="font-size:18px; font-weight:800; color:var(--mh-gold);">50</div><div style="font-size:9px; color:var(--g500);">Points</div></div>
         </div>
       </div>
 
