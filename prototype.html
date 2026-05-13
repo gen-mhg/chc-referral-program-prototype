@@ -307,10 +307,11 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
   <button class="on" onclick="go('email')"><span class="num">1</span>Email + Share</button>
   <button onclick="go('sharesheet')"><span class="num">2</span>Native Share</button>
   <button onclick="go('onboard')"><span class="num">3</span>Homepage</button>
-  <button onclick="go('verify')"><span class="num">4</span>Onboarding</button>
-  <button onclick="go('backend')"><span class="num">5</span>Backend → T1</button>
-  <button onclick="go('challenges')"><span class="num">6</span>My Challenges</button>
-  <button onclick="go('detail')"><span class="num">7</span>Challenge Detail</button>
+  <button onclick="go('keycloak')"><span class="num">4</span>Keycloak Login</button>
+  <button onclick="go('verify')"><span class="num">5</span>Onboarding</button>
+  <button onclick="go('backend')"><span class="num">6</span>Backend → T1</button>
+  <button onclick="go('challenges')"><span class="num">7</span>My Challenges</button>
+  <button onclick="go('detail')"><span class="num">8</span>Challenge Detail</button>
   <span class="sep">|</span>
   <button onclick="go('dataflow')">Data Flow</button>
 </div>
@@ -347,13 +348,13 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
               </div>
               <div style="display:flex; align-items:flex-start; gap:8px;">
                 <div style="width:20px; height:20px; background:var(--mh-blue); color:#fff; border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0;">3</div>
-                <div style="font-size:var(--mh-fs-caption); color:var(--g600); line-height:1.5;"><strong>You earn a badge</strong> — unlock the Credit Champion badge and level up as you refer more friends</div>
+                <div style="font-size:var(--mh-fs-caption); color:var(--g600); line-height:1.5;"><strong>You earn a badge</strong> — unlock the Social Butterfly badge and level up as you refer more friends</div>
               </div>
             </div>
 
             <div class="e-badge">
               <div class="eb-ico">🏆</div>
-              <div class="eb-txt"><strong>Credit Hero Champion badge</strong><br>Refer 1 friend for Level 1, 3 for Level 2, 5 for Level 3, and 10 for Level 4. How far can you go?</div>
+              <div class="eb-txt"><strong>Social Butterfly 社交達人 badge</strong><br>Refer 1 friend for Lvl. 1, 3 for Lvl. 2, 5 for Lvl. 3, and 10 for Lvl. 4. How far can you go?</div>
             </div>
             <div class="ann green" data-ann="NATIVE SHARE — ANY APP" style="margin-top:14px;">
               <button class="share-cta" onclick="go('sharesheet')">
@@ -380,7 +381,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
         <h4>Email Copy Structure</h4>
         <p><strong>1. Introduce:</strong> "We're launching Refer a Friend" — tells the user what's new</p>
         <p><strong>2. How it works:</strong> 3-step visual breakdown (share link → friend joins → earn badge)</p>
-        <p><strong>3. Badge tiers:</strong> Shows Credit Hero Champion progression (L1–L4) to motivate multiple referrals</p>
+        <p><strong>3. Badge tiers:</strong> Shows Social Butterfly progression (L1–L4) to motivate multiple referrals</p>
         <p><strong>4. CTA:</strong> Share button (native share) + fallback copy link</p>
       </div>
 
@@ -591,7 +592,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
 
         <!-- Bottom CTA -->
         <div style="padding:14px;">
-          <button onclick="go('verify')" style="width:100%; background:var(--mh-gold); color:var(--g800); border:none; border-radius:10px; padding:14px; font-size:var(--mh-fs-body-2); font-weight:700; cursor:pointer;">View Credit Report</button>
+          <button onclick="go('keycloak')" style="width:100%; background:var(--mh-gold); color:var(--g800); border:none; border-radius:10px; padding:14px; font-size:var(--mh-fs-body-2); font-weight:700; cursor:pointer;">View Credit Report</button>
           <div style="text-align:center; margin-top:8px; font-size:11px; color:var(--g400);">Already a member? <span style="color:var(--mh-blue); text-decoration:underline; cursor:pointer;">Login</span></div>
         </div>
 
@@ -631,7 +632,116 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
   </div>
 </div>
 
-<!-- ═══ STEP 3B: ONBOARDING / IDENTITY VERIFICATION ═══ -->
+<!-- ═══ STEP 4: KEYCLOAK LOGIN / REGISTER (with optional referral code field) ═══ -->
+<div id="s-keycloak" class="scr">
+  <div class="frame-wrap">
+    <div class="mfr"><div class="mnotch"></div><div class="mscr">
+      <div style="min-height:100%; background:var(--mh-primary-900); display:flex; flex-direction:column;">
+
+        <!-- Browser chrome -->
+        <div style="background:rgba(255,255,255,0.05); padding:38px 12px 6px; display:flex; align-items:center; gap:8px;">
+          <div style="flex:1; background:rgba(255,255,255,0.1); border-radius:6px; padding:5px 10px; font-size:9px; color:rgba(255,255,255,0.7); font-family:monospace; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">keycloak.moneyhero.com.hk/auth?ref=SC7X2K</div>
+          <div style="font-size:var(--mh-fs-caption); color:rgba(255,255,255,0.5);">↻</div>
+        </div>
+
+        <!-- MoneyHero logo (white) -->
+        <div style="text-align:center; padding:40px 0 24px;">
+          <img src="./moneyhero-logo-white.svg" alt="MoneyHero" style="height:28px; width:auto; display:inline-block;">
+        </div>
+
+        <!-- Login card -->
+        <div style="padding:0 20px; flex:1;">
+          <div style="background:#fff; border-radius:14px; padding:24px 20px;">
+            <h3 style="font-size:var(--mh-fs-body-1); font-weight:800; text-align:center; margin-bottom:18px; color:var(--g800);">立即登入或註冊</h3>
+
+            <!-- Email input -->
+            <div style="margin-bottom:12px;">
+              <input type="email" placeholder="請輸入您的電郵地址" style="width:100%; padding:12px 14px; border:1px solid var(--g300); border-radius:8px; font-size:13px; color:var(--g700); outline:none; font-family:inherit;">
+            </div>
+
+            <!-- NEW: Optional referral code field -->
+            <div style="margin-bottom:14px; position:relative;">
+              <label style="display:flex; align-items:center; justify-content:space-between; font-size:11px; color:var(--g600); margin-bottom:6px;">
+                <span>推薦碼 <span style="color:var(--g400);">（可選）</span></span>
+                <span style="background:var(--mh-green); color:#fff; font-size:9px; font-weight:700; padding:2px 6px; border-radius:4px;">✓ 已自動填入</span>
+              </label>
+              <input type="text" value="SC7X2K" style="width:100%; padding:12px 14px; border:1px solid var(--mh-green); border-radius:8px; font-size:13px; color:var(--g700); outline:none; font-family:monospace; letter-spacing:1px; background:#F0FAF4;">
+              <div style="font-size:10px; color:var(--g500); margin-top:4px; line-height:1.4;">由您的朋友邀請？輸入他們的推薦碼即可獲得獎勵 / Got a code from a friend? Enter it here.</div>
+            </div>
+
+            <!-- Login/register button -->
+            <button onclick="go('verify')" style="width:100%; background:linear-gradient(135deg, #2D1B69, var(--mh-blue)); color:#fff; border:none; border-radius:8px; padding:14px; font-size:var(--mh-fs-body-2); font-weight:700; cursor:pointer; margin-bottom:14px;">登入/註冊</button>
+
+            <!-- Consent -->
+            <div style="display:flex; align-items:flex-start; gap:8px;">
+              <div style="width:14px; height:14px; border:1px solid var(--g300); border-radius:3px; flex-shrink:0; margin-top:2px;"></div>
+              <div style="font-size:10px; color:var(--g600); line-height:1.5;">
+                我同意透過電子郵件、電話、IM或簡訊接收 MoneyHero Global Limited / MoneyHero Insurance Brokers Limited 有關其產品、服務、優惠及活動的營銷資料，並使用我根據其隱私政策所提供的個人資料。若想退出訂閱，請發送電子郵件至 <span style="color:var(--mh-blue);">support@moneyhero.com.hk</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- T&C footer -->
+          <div style="text-align:center; margin-top:16px; padding:0 8px;">
+            <div style="font-size:10px; color:rgba(255,255,255,0.6); line-height:1.5;">
+              登入或註冊即表示您同意MoneyHero及其關聯公司之<span style="color:rgba(255,255,255,0.9); text-decoration:underline;">條款及細則</span>和<span style="color:rgba(255,255,255,0.9); text-decoration:underline;">個人私隱政策</span>。
+            </div>
+          </div>
+        </div>
+
+        <!-- Copyright footer -->
+        <div style="padding:20px; text-align:center; font-size:9px; color:rgba(255,255,255,0.4); line-height:1.5;">
+          © 2013 – 2026 MoneyHero Global Limited（於香港註冊，公司編號為 1864714）("MHGL")。版權所有。
+        </div>
+      </div>
+
+      <!-- Ref param indicator -->
+      <div class="ref-indicator ann blue" data-ann="REF AUTO-FILLED">
+        <div class="ri-label">ref param auto-fills the optional code field</div>
+        URL: <code>?ref=SC7X2K</code><br>
+        Field value: SC7X2K ✓<br>
+        Friend can also enter manually if they have a code but no link.
+      </div>
+    </div></div>
+
+    <div class="side">
+      <div class="step-label v1">v1 — Step 4 (NEW)</div>
+      <h2>Keycloak Login / Register</h2>
+      <p>Friend signs up here after clicking a referral link (or directly via the homepage CTA). Added an <strong>optional referral code field</strong> per Group Head of Eng & AI feedback — common pattern in HK fintech.</p>
+
+      <div class="detail-box">
+        <h4><span class="tag tag-kc">Keycloak</span> Two-Path Support</h4>
+        <p><strong>Path A — Link-based (preferred):</strong> Friend arrives via referral link → URL contains <code>?ref=SC7X2K</code> → field auto-fills, shows green "auto-filled" badge → friend just submits email.</p>
+        <p><strong>Path B — Manual entry (fallback):</strong> Friend received code via verbal sharing/WhatsApp text → enters code manually into the optional field.</p>
+        <p>Both paths land in the same Keycloak realm — code carried forward to backend on session creation.</p>
+      </div>
+
+      <div class="detail-box">
+        <h4><span class="tag tag-be">Backend</span> Code Capture</h4>
+        <p>On Keycloak post-registration callback, capture the ref code from the form field. Persist on the user's profile as <code>referred_by_code</code>.</p>
+        <p>Validation: trim whitespace, uppercase, format check (4 chars + dash + 4 chars). Invalid format → silently ignore (don't block signup).</p>
+      </div>
+
+      <div class="detail-box">
+        <h4>Why Optional, Not Required</h4>
+        <p>~85% of friends will arrive via link (auto-fill). The ~15% who got a code verbally need the manual fallback. Mandatory field would block organic signups entirely.</p>
+        <p>HK norm: Mox, ZA, WeLab all support manual code entry but don't require it.</p>
+      </div>
+
+      <div class="detail-box">
+        <h4><span class="tag tag-kc">Keycloak</span> Realm Customisation Required</h4>
+        <p>Default Keycloak form has email + password only. Adding a third field requires:</p>
+        <p>• Custom Keycloak theme with the new field</p>
+        <p>• Form submission carries the field as a profile attribute</p>
+        <p>• <strong>Eng effort: ~0.5–1 day</strong> for theme customisation (one-time)</p>
+      </div>
+
+      <div class="arrow-down"><span>↓ Friend submits → Keycloak creates account → /en/auth onboarding</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ STEP 5: ONBOARDING / IDENTITY VERIFICATION ═══ -->
 <div id="s-verify" class="scr">
   <div class="frame-wrap">
     <div class="mfr"><div class="mnotch"></div><div class="mscr">
@@ -738,7 +848,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
     </div></div>
 
     <div class="side">
-      <div class="step-label v1">v1 — Step 3b</div>
+      <div class="step-label v1">v1 — Step 5</div>
       <h2>Onboarding — /en/auth</h2>
       <p>After Keycloak login/register, Alex lands on the identity verification page. Three steps: scan HKID, verify details, facial scan. This is the existing flow — no changes.</p>
 
@@ -791,7 +901,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
           <div style="color:var(--mh-gold);">→ T1: session update (ref code, closed)</div>
           <div style="color:var(--mh-green);">✓ T1 webhook: referral success, count=1</div>
           <div style="color:var(--mh-gold);">→ T1: event to register achievement</div>
-          <div style="color:var(--mh-green);">✓ T1 webhook: Credit Champion L1 awarded</div>
+          <div style="color:var(--mh-green);">✓ T1 webhook: Social Butterfly L1 awarded</div>
           <div style="color:var(--mh-gold);">→ MoEngage: push to Sarah</div>
           <div style="color:var(--mh-green);">✓ GA4: chc_referral_complete</div>
         </div>
@@ -799,7 +909,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
     </div></div>
 
     <div class="side">
-      <div class="step-label v1">v1 — Step 4</div>
+      <div class="step-label v1">v1 — Step 6</div>
       <h2>Backend → TalonOne (2-step)</h2>
       <p>On account creation, backend sends <strong>two calls</strong> to TalonOne: (1) close the friend's session with the referral code to validate the referral, then (2) fire an event to register the achievement on the advocate's profile.</p>
 
@@ -820,7 +930,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
         <p>TalonOne is the source of truth:</p>
         <p>• Session close → referral attributed to advocate</p>
         <p>• Achievement event → L1 progress = 1/1 → award badge</p>
-        <p>• Badge: "Credit Hero Champion" Level 1</p>
+        <p>• Badge: "Social Butterfly" Lvl. 1</p>
       </div>
 
       <div class="detail-box">
@@ -927,7 +1037,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
           </div>
         </div>
 
-        <!-- Credit Hero Champion — NEW referral card -->
+        <!-- Credit Hero Squad — NEW referral card -->
         <div style="padding:12px 16px 6px;">
           <div style="font-size:var(--mh-fs-body-2); font-weight:800; color:var(--mh-blue);">Refer a Friend</div>
         </div>
@@ -938,7 +1048,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
               1
               <div style="position:absolute; bottom:-2px; right:-2px; width:24px; height:24px; background:var(--mh-gold); border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:var(--mh-fs-caption); border:2px solid #fff;">🤝</div>
             </div>
-            <div style="font-size:var(--mh-fs-caption); font-weight:700; color:var(--mh-blue);">Credit Hero Champion</div>
+            <div style="font-size:var(--mh-fs-caption); font-weight:700; color:var(--mh-blue);">Credit Hero Squad</div>
             <div style="font-size:10px; color:var(--g400); margin-top:4px;">1 friend referred. 2 more for Lvl. 2!</div>
           </div>
         </div>
@@ -949,8 +1059,8 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
 
     <div class="side">
       <div class="step-label v1">v1 — My Challenges Page</div>
-      <h2>Credit Hero Champion on Challenges Page</h2>
-      <p>New "Credit Hero Champion" card appears in a <strong>Refer a Friend</strong> section below the existing 6 credit habit challenges. Uses the same card pattern — blue circle shows referral count.</p>
+      <h2>Credit Hero Squad on Challenges Page</h2>
+      <p>New "Credit Hero Squad 信用英雄隊" card appears in a <strong>Refer a Friend</strong> section below the existing 6 credit habit challenges. Uses the same card pattern — blue circle shows referral count.</p>
 
       <div class="detail-box">
         <h4><span class="tag tag-fe">Frontend</span> New Challenge Card</h4>
@@ -984,8 +1094,8 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
             <img src="./moneyhero-logo-white.svg" alt="MoneyHero" style="height:20px; width:auto; display:inline-block;">
             <div style="font-size:var(--mh-fs-body-1); opacity:0.5; cursor:pointer;">⎋</div>
           </div>
-          <div style="font-size:11px; opacity:0.5; margin-bottom:2px;">🏠 / <span style="cursor:pointer; text-decoration:underline;" onclick="go('challenges')">My Challenges</span> / <span style="text-decoration:underline;">Credit Hero Champion</span></div>
-          <div style="font-size:var(--mh-fs-display-1); font-weight:800;">Credit Hero Champion</div>
+          <div style="font-size:11px; opacity:0.5; margin-bottom:2px;">🏠 / <span style="cursor:pointer; text-decoration:underline;" onclick="go('challenges')">My Challenges</span> / <span style="text-decoration:underline;">Credit Hero Squad</span></div>
+          <div style="font-size:var(--mh-fs-display-1); font-weight:800;">Credit Hero Squad</div>
           <div style="font-size:11px; opacity:0.5; margin-top:2px;">Report updated: Apr 9, 2026 3:15pm</div>
           <div style="font-size:var(--mh-fs-caption); opacity:0.6; margin-top:4px;">Refer friends to Credit Hero Club and earn badges ... <span style="text-decoration:underline; cursor:pointer;">show more</span></div>
         </div>
@@ -999,9 +1109,9 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
               <div style="color:#fff; font-size:36px; font-weight:800;">1</div>
               <div style="position:absolute; bottom:4px; right:4px; width:32px; height:32px; background:var(--mh-gold); border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:var(--mh-fs-body-1); border:3px solid #fff;">🤝</div>
             </div>
-            <div style="font-size:var(--mh-fs-body-1); font-weight:800; color:var(--g800);">Credit Hero Champion</div>
+            <div style="font-size:var(--mh-fs-body-1); font-weight:800; color:var(--g800);">Social Butterfly Lvl. 1 🦋</div>
             <div style="font-size:13px; font-weight:600; margin-top:4px;">1 Friend Referred</div>
-            <div style="font-size:var(--mh-fs-caption); color:var(--g500); margin-top:4px; line-height:1.5;">Refer 2 more friends to reach<br>Credit Hero Champion Lvl. 2!</div>
+            <div style="font-size:var(--mh-fs-caption); color:var(--g500); margin-top:4px; line-height:1.5;">Refer 2 more friends to reach<br>Super Social Butterfly Lvl. 2!</div>
           </div>
 
           <!-- Progress Milestones — matching screenshot badge grid -->
@@ -1011,21 +1121,21 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
               <!-- L1 — Earned -->
               <div style="text-align:center;">
                 <div style="width:56px; height:56px; background:linear-gradient(135deg, var(--mh-gold), #FFD700); border-radius:var(--mh-radius-full); margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:24px; box-shadow:0 2px 8px rgba(255,175,38,0.3);">🏆</div>
-                <div style="font-size:10px; font-weight:700; color:var(--g800);">Credit Hero Champion</div>
+                <div style="font-size:10px; font-weight:700; color:var(--g800); line-height:1.2;">Social Butterfly</div>
                 <div style="font-size:9px; color:var(--g500);">Lvl. 1</div>
                 <div style="font-size:9px; color:var(--mh-green); font-weight:600;">✓ Earned</div>
               </div>
               <!-- L2 — Next -->
               <div style="text-align:center;">
                 <div style="width:56px; height:56px; background:var(--g200); border-radius:var(--mh-radius-full); margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:24px; opacity:0.4;">🏆</div>
-                <div style="font-size:10px; font-weight:700; color:var(--g500);">Credit Hero Champion</div>
+                <div style="font-size:10px; font-weight:700; color:var(--g500); line-height:1.2;">Super Social Butterfly</div>
                 <div style="font-size:9px; color:var(--g400);">Lvl. 2</div>
                 <div style="font-size:9px; color:var(--g400);">3 friends</div>
               </div>
               <!-- L3 — Locked -->
               <div style="text-align:center;">
                 <div style="width:56px; height:56px; background:var(--g200); border-radius:var(--mh-radius-full); margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:24px; opacity:0.4;">🏆</div>
-                <div style="font-size:10px; font-weight:700; color:var(--g500);">Credit Hero Champion</div>
+                <div style="font-size:10px; font-weight:700; color:var(--g500); line-height:1.2;">Mega Social Butterfly</div>
                 <div style="font-size:9px; color:var(--g400);">Lvl. 3</div>
                 <div style="font-size:9px; color:var(--g400);">5 friends</div>
               </div>
@@ -1034,7 +1144,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
               <!-- L4 — Locked -->
               <div style="text-align:center;">
                 <div style="width:56px; height:56px; background:var(--g200); border-radius:var(--mh-radius-full); margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:24px; opacity:0.4;">🏆</div>
-                <div style="font-size:10px; font-weight:700; color:var(--g500);">Credit Hero Champion</div>
+                <div style="font-size:10px; font-weight:700; color:var(--g500); line-height:1.2;">Legendary Social Butterfly</div>
                 <div style="font-size:9px; color:var(--g400);">Lvl. 4</div>
                 <div style="font-size:9px; color:var(--g400);">10 friends</div>
               </div>
@@ -1047,7 +1157,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
           <div class="ann green" data-ann="REFERRAL LINK" style="background:#fff; border-radius:14px; padding:16px; border:1px solid var(--g200); margin-bottom:14px;">
             <div style="font-size:var(--mh-fs-body-2); font-weight:800; margin-bottom:8px;">How Does This Work?</div>
             <div style="font-size:var(--mh-fs-caption); color:var(--g600); line-height:1.7; margin-bottom:14px;">
-              Share your referral link with friends and family. When they sign up for Credit Hero Club and verify their identity, you'll earn progress towards your Credit Hero Champion badges. Each level requires more referrals — how far can you go?
+              Share your referral link with friends and family. When they sign up for Credit Hero Club and verify their identity, you'll earn progress towards your Social Butterfly badges. Each level requires more referrals — how far can you go?
             </div>
 
             <div style="height:1px; background:var(--g200); margin:0 -16px 14px; width:calc(100% + 32px);"></div>
@@ -1064,16 +1174,24 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
             </button>
           </div>
 
-          <!-- Friends who joined -->
+          <!-- Friends who joined (PII-masked: anonymous ordinals only) -->
           <div style="background:#fff; border-radius:14px; padding:16px; border:1px solid var(--g200); margin-bottom:20px;">
-            <div style="font-size:var(--mh-fs-body-2); font-weight:800; margin-bottom:10px;">Friends Who Joined</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+              <div style="font-size:var(--mh-fs-body-2); font-weight:800;">Successful referrals</div>
+              <div style="font-size:10px; color:var(--g500);">1 of 1</div>
+            </div>
             <div class="friend-row">
-              <div class="friend-av">AW</div>
+              <div class="friend-av" style="background:var(--g400);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
               <div class="friend-info">
-                <div class="fn">Alex W.</div>
+                <div class="fn">Friend 1</div>
                 <div class="fd">Joined 8 Apr 2026</div>
               </div>
               <div class="friend-check">✓</div>
+            </div>
+            <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--g100); font-size:10px; color:var(--g500); line-height:1.5;">
+              🔒 Friend names are anonymised to protect privacy. You'll only see whether they joined — never their personal information.
             </div>
           </div>
 
@@ -1082,7 +1200,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
     </div></div>
 
     <div class="side">
-      <div class="step-label v1">v1 — Credit Hero Champion Details</div>
+      <div class="step-label v1">v1 — Credit Hero Squad Details</div>
       <h2>Challenge Detail Page</h2>
       <p>Follows the existing badge details page pattern (Type 1). Not a streak — the blue circle shows friend count. Referral link lives here.</p>
 
@@ -1098,11 +1216,11 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
       </div>
 
       <div class="detail-box">
-        <h4>Credit Hero Champion Milestones</h4>
-        <p>• <strong>Lvl. 1:</strong> 1 friend referred</p>
-        <p>• <strong>Lvl. 2:</strong> 3 friends referred</p>
-        <p>• <strong>Lvl. 3:</strong> 5 friends referred</p>
-        <p>• <strong>Lvl. 4:</strong> 10 friends referred</p>
+        <h4>Social Butterfly 社交達人 Milestones</h4>
+        <p>• <strong>Lvl. 1 — Social Butterfly:</strong> 1 friend referred</p>
+        <p>• <strong>Lvl. 2 — Super Social Butterfly:</strong> 3 friends referred</p>
+        <p>• <strong>Lvl. 3 — Mega Social Butterfly:</strong> 5 friends referred</p>
+        <p>• <strong>Lvl. 4 — Legendary Social Butterfly:</strong> 10 friends referred</p>
         <p>Earned = gold badge. Locked = greyed out. Same visual pattern as Credit Watcher quarterly badges.</p>
       </div>
 
@@ -1159,7 +1277,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
           <div class="arch-box v1">
             <div class="ab-ico">🏆</div>
             <div class="ab-name">Badge Config</div>
-            <div class="ab-role">Credit Champion L1–L4</div>
+            <div class="ab-role">Social Butterfly L1–L4</div>
           </div>
         </div>
         <div style="margin:12px 0 4px;"><span class="arch-label" style="color:var(--g400);">Existing — no changes</span></div>
@@ -1305,7 +1423,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
           <div class="flow-node user">Referrer</div>
         </div>
         <div class="flow-row">
-          <div class="flow-label">"You're 2 away from Credit Champion Level 2!"</div>
+          <div class="flow-label">"You're 2 away from Super Social Butterfly Lvl. 2!"</div>
         </div>
       </div>
 
