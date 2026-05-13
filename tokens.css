@@ -1,0 +1,403 @@
+/* ============================================================
+   MHG Alpha Design System — Design Tokens
+   ============================================================
+
+   Source: Figma file 82tOs1i8NmsLWxZkHTzB80 (MHG Alpha Design System)
+           Extracted via Figma REST API on 2026-05-13.
+   Maintainer: MoneyHero Group product/design
+
+   HOW TO USE
+   ----------
+   Link this file at the top of every prototype:
+       <link rel="stylesheet" href="../Moneyhero Design System/tokens.css">
+
+   Reference tokens via CSS custom properties:
+       color: var(--mh-primary-500);
+       padding: var(--mh-space-4);
+       box-shadow: var(--mh-shadow-block-interactive);
+
+   Or use type preset classes:
+       <h1 class="mh-display-2">…</h1>
+
+   STATUS
+   ------
+   - Colours, typography (sizes/weights/line-heights), shadows, grid
+     breakpoints: AUTHORITATIVE — pulled directly from Figma styles.
+   - Spacing scale and corner radii: APPROXIMATE — not stored as styles
+     in Figma. Verify before using in production.
+   ============================================================ */
+
+
+/* ============================================================
+   1. BRAND COLOURS
+   ============================================================
+   Each MHG brand has Primary and Secondary scales 50→900.
+   "Signature" = the brand's marked default step.
+   ============================================================ */
+
+:root {
+
+  /* --- MoneyHero Group / SingSaver / Money101 (shared scale) ---
+     Primary signature: P-800 (deep teal)
+     Secondary signature: P-600 (green) */
+  --mhg-primary-50:  #E0F4F8;
+  --mhg-primary-100: #B2E2ED;
+  --mhg-primary-200: #82CFE2;
+  --mhg-primary-300: #57BCD8;
+  --mhg-primary-400: #39AED3;
+  --mhg-primary-500: #1CA1CE;
+  --mhg-primary-600: #1393C0;
+  --mhg-primary-700: #0381AE;
+  --mhg-primary-800: #04709B;  /* signature */
+  --mhg-primary-900: #00517A;
+
+  --mhg-secondary-50:  #F0F7E9;
+  --mhg-secondary-100: #DAEAC7;
+  --mhg-secondary-200: #C2DCA3;
+  --mhg-secondary-300: #AACE7F;
+  --mhg-secondary-400: #98C464;
+  --mhg-secondary-500: #86BA4A;
+  --mhg-secondary-600: #78AA42;  /* signature */
+  --mhg-secondary-700: #649638;
+  --mhg-secondary-800: #4B7B2A;  /* derived: Figma 800 swatch missing; interpolated between 700/900 */
+  --mhg-secondary-900: #32611F;
+
+
+  /* --- MoneyHero (Hong Kong) — primary brand for CHC ---
+     Primary signature: P-500 (royal blue)
+     Secondary signature: S-800 (golden yellow-orange) */
+  --mh-primary-50:  #E7EBF6;
+  --mh-primary-100: #C2CBE9;
+  --mh-primary-200: #99AADB;
+  --mh-primary-300: #6F89CC;
+  --mh-primary-400: #4D6FC2;
+  --mh-primary-500: #2257B8;  /* signature */
+  --mh-primary-600: #1A4FAE;
+  --mh-primary-700: #0845A2;
+  --mh-primary-800: #003B96;
+  --mh-primary-900: #002981;
+
+  --mh-secondary-50:  #FFFEE8;
+  --mh-secondary-100: #FFFAC4;
+  --mh-secondary-200: #FEF69D;
+  --mh-secondary-300: #FDF275;
+  --mh-secondary-400: #FAED54;
+  --mh-secondary-500: #F7E832;
+  --mh-secondary-600: #FFDF37;
+  --mh-secondary-700: #FFC82F;
+  --mh-secondary-800: #FFAF26;  /* signature */
+  --mh-secondary-900: #FC8616;
+
+
+  /* --- Seedly (Singapore) ---
+     Primary signature: P-500 (royal blue)
+     Secondary signature: S-300 (mint green) */
+  --seedly-primary-50:  #E9EBFB;
+  --seedly-primary-100: #C6CDF6;
+  --seedly-primary-200: #9FACEF;
+  --seedly-primary-300: #758CE9;
+  --seedly-primary-400: #5371E4;
+  --seedly-primary-500: #2955DE;  /* signature */
+  --seedly-primary-600: #224ED3;
+  --seedly-primary-700: #1343C6;
+  --seedly-primary-800: #0038BB;
+  --seedly-primary-900: #0024A8;
+
+  --seedly-secondary-50:  #E3F7EB;
+  --seedly-secondary-100: #BCEACD;
+  --seedly-secondary-200: #8EDCAE;
+  --seedly-secondary-300: #57CF8D;  /* signature */
+  --seedly-secondary-400: #10C474;
+  --seedly-secondary-500: #00B85D;
+  --seedly-secondary-600: #00A952;
+  --seedly-secondary-700: #009646;
+  --seedly-secondary-800: #00853B;
+  --seedly-secondary-900: #006526;
+
+
+  /* --- Creatory (all markets) ---
+     Primary signature: P-500 (royal blue)
+     Secondary signature: S-300 (olive yellow) */
+  --creatory-primary-50:  #E8EAF9;
+  --creatory-primary-100: #C4CBF1;
+  --creatory-primary-200: #9CAAE7;
+  --creatory-primary-300: #7188DE;
+  --creatory-primary-400: #4E6DD7;
+  --creatory-primary-500: #2253CF;  /* signature */
+  --creatory-primary-600: #1B4BC4;
+  --creatory-primary-700: #0740B8;
+  --creatory-primary-800: #0036AD;
+  --creatory-primary-900: #002399;
+
+  --creatory-secondary-50:  #FCFFE8;
+  --creatory-secondary-100: #F6FDC4;
+  --creatory-secondary-200: #EEFB9B;
+  --creatory-secondary-300: #E6FC52;  /* signature */
+  --creatory-secondary-400: #E6FC52;
+  --creatory-secondary-500: #DFF82F;
+  --creatory-secondary-600: #D6E82C;
+  --creatory-secondary-700: #C5D022;
+  --creatory-secondary-800: #B4B81A;
+  --creatory-secondary-900: #9A9008;
+
+
+  /* --- Neutral grays --- */
+  --mh-gray-50:  #FAFAFA;
+  --mh-gray-100: #F5F5F5;
+  --mh-gray-200: #EEEEEE;
+  --mh-gray-300: #E0E0E0;
+  --mh-gray-400: #BDBDBD;
+  --mh-gray-500: #9E9E9E;
+  --mh-gray-600: #757575;
+  --mh-gray-700: #616161;
+  --mh-gray-800: #424242;
+  --mh-gray-900: #212121;
+
+
+  /* --- Semantic shortcuts (default to MoneyHero HK for this workspace) --- */
+  --mh-text-primary:    var(--mh-gray-900);
+  --mh-text-secondary:  var(--mh-gray-700);
+  --mh-text-muted:      var(--mh-gray-500);
+  --mh-text-on-brand:   #FFFFFF;
+  --mh-text-link:       var(--mh-primary-500);
+
+  --mh-bg-page:         #FFFFFF;
+  --mh-bg-subtle:       var(--mh-gray-50);
+  --mh-bg-muted:        var(--mh-gray-100);
+
+  --mh-border-default:  var(--mh-gray-200);
+  --mh-border-strong:   var(--mh-gray-300);
+  --mh-border-focus:    var(--mh-primary-500);
+
+  --mh-accent-primary:   var(--mh-primary-500);
+  --mh-accent-secondary: var(--mh-secondary-800);
+
+
+  /* ============================================================
+     2. TYPOGRAPHY  (sizes, weights, line-heights from Figma styles)
+     ============================================================
+     Fonts:
+       - Albert Sans for English (SG/MY/PH) and EN content elsewhere
+       - Noto Sans Traditional Chinese for Cantonese (HK) and Mandarin (TW)
+       Do not use weights: Thin/100, ExtraLight/200, Light/300, Black/900
+     ============================================================ */
+
+  --mh-font-en:      'Albert Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mh-font-zh:      'Noto Sans TC', 'Noto Sans Traditional Chinese', 'PingFang TC',
+                     'Microsoft JhengHei', sans-serif;
+  --mh-font-default: var(--mh-font-en);
+
+  /* Weights */
+  --mh-fw-regular:  400;
+  --mh-fw-medium:   500;
+  --mh-fw-semibold: 600;
+  --mh-fw-bold:     700;
+
+  /* Font sizes — authoritative from Figma */
+  --mh-fs-display-5:    34px;
+  --mh-fs-display-4:    28px;
+  --mh-fs-display-3:    28px;
+  --mh-fs-display-2:    24px;
+  --mh-fs-display-1:    20px;
+  --mh-fs-display-1-blog: 20px;
+  --mh-fs-title-1:      18px;
+  --mh-fs-title-2:      16px;
+  --mh-fs-subheading-1: 18px;
+  --mh-fs-subheading-2: 16px;
+  --mh-fs-subheading-2-blog: 16px;
+  --mh-fs-body-1:       16px;
+  --mh-fs-body-1-blog:  16px;
+  --mh-fs-body-2:       14px;
+  --mh-fs-body-2-blog:  14px;
+  --mh-fs-bullet-1:     16px;
+  --mh-fs-bullet-2:     14px;
+  --mh-fs-caption:      12px;
+  --mh-fs-overline:     14px;
+  --mh-fs-tag:          14px;
+  --mh-fs-badge:        12px;
+  --mh-fs-breadcrumb:   12px;
+  --mh-fs-button-sm:    14px;
+  --mh-fs-button-md:    16px;
+  --mh-fs-form-input:   16px;
+  --mh-fs-form-label:   16px;
+
+  /* Line heights — authoritative from Figma (in px) */
+  --mh-lh-display-5:    40px;
+  --mh-lh-display-4:    36px;
+  --mh-lh-display-3:    36px;
+  --mh-lh-display-2:    31px;
+  --mh-lh-display-1:    24px;
+  --mh-lh-display-1-blog: 26px;
+  --mh-lh-title-1:      22px;
+  --mh-lh-title-2:      20px;
+  --mh-lh-subheading-1: 22px;
+  --mh-lh-subheading-2: 20px;
+  --mh-lh-subheading-2-blog: 21px;
+  --mh-lh-body-1:       20px;
+  --mh-lh-body-1-blog:  26px;
+  --mh-lh-body-1-relaxed: 26px;
+  --mh-lh-body-2:       18px;
+  --mh-lh-body-2-blog:  23px;
+  --mh-lh-body-2-relaxed: 23px;
+  --mh-lh-bullet-1:     20px;
+  --mh-lh-bullet-2:     18px;
+  --mh-lh-caption:      16px;
+  --mh-lh-overline:     18px;
+  --mh-lh-tag:          19px;
+  --mh-lh-badge:        16px;
+
+
+  /* ============================================================
+     3. SPACING — APPROXIMATE (not stored as Figma styles)
+     4px base. Verify before production use.
+     ============================================================ */
+  --mh-space-0:  0;
+  --mh-space-1:  4px;
+  --mh-space-2:  8px;
+  --mh-space-3:  12px;
+  --mh-space-4:  16px;
+  --mh-space-5:  24px;
+  --mh-space-6:  32px;
+  --mh-space-7:  48px;
+  --mh-space-8:  64px;
+  --mh-space-9:  96px;
+
+
+  /* ============================================================
+     4. RADII — APPROXIMATE
+     ============================================================ */
+  --mh-radius-sm:    4px;
+  --mh-radius-md:    8px;
+  --mh-radius-lg:    12px;
+  --mh-radius-xl:    16px;
+  --mh-radius-pill:  9999px;
+  --mh-radius-full:  50%;
+
+
+  /* ============================================================
+     5. SHADOWS / ELEVATION — authoritative from Figma effect styles
+     ============================================================ */
+  --mh-shadow-sm:       0 1px 2px 0 rgba(0,0,0,0.05);
+  --mh-shadow-default:  0 1px 2px -1px rgba(0,0,0,0.1), 0 1px 3px 0 rgba(0,0,0,0.1);
+  --mh-shadow-md:       0 2px 4px -2px rgba(0,0,0,0.1), 0 4px 6px -1px rgba(0,0,0,0.1);
+  --mh-shadow-lg:       0 4px 6px -4px rgba(0,0,0,0.1), 0 10px 15px -3px rgba(0,0,0,0.1);
+  --mh-shadow-xl:       0 8px 10px -6px rgba(0,0,0,0.1), 0 20px 25px -5px rgba(0,0,0,0.1);
+  --mh-shadow-2xl:      0 25px 50px -12px rgba(0,0,0,0.25);
+  --mh-shadow-modal:    0 0 12px 0 rgba(0,0,0,0.15);
+
+  /* Block-interactive: the "card" preset from Foundations PDF elevation */
+  --mh-shadow-block:        4px 4px 16px -3px rgba(0,0,0,0.1);
+  --mh-shadow-block-hover:  4px 4px 24px -3px rgba(0,0,0,0.2);
+
+
+  /* ============================================================
+     6. ICONS & PICTOGRAMS (Google Material Symbols)
+     ============================================================ */
+  --mh-icon-size:           24px;
+  --mh-icon-weight:         300;
+  --mh-icon-grade:          0;
+  --mh-icon-style:          outline;
+
+  --mh-pictogram-size:      48px;
+  --mh-pictogram-weight:    200;
+  --mh-pictogram-grade:     0;
+  --mh-pictogram-style:     outline;
+
+
+  /* ============================================================
+     7. BREAKPOINTS & GRID — authoritative from Figma grid styles
+     ============================================================
+       0–767     mobile:  4 cols / 16 gutter / 16 margin
+       768–1279  tablet:  8 cols / 16 gutter / 24 margin
+       1280–1439 desktop: 12 cols / 24 gutter / 32 margin
+       1440+     wide:    12 cols / 24 gutter / 40 margin
+       1920+     xwide:   12 cols / 24 gutter / 280 margin
+       2560+     ultra:   12 cols / 24 gutter / 600 margin
+     ============================================================ */
+  --mh-bp-mobile:   360px;
+  --mh-bp-tablet:   768px;
+  --mh-bp-desktop:  1280px;
+  --mh-bp-wide:     1440px;
+  --mh-bp-xwide:    1920px;
+
+  --mh-grid-mobile-cols:    4;
+  --mh-grid-mobile-gutter:  16px;
+  --mh-grid-mobile-margin:  16px;
+
+  --mh-grid-tablet-cols:    8;
+  --mh-grid-tablet-gutter:  16px;
+  --mh-grid-tablet-margin:  24px;
+
+  --mh-grid-desktop-cols:   12;
+  --mh-grid-desktop-gutter: 24px;
+  --mh-grid-desktop-margin: 32px;
+
+  --mh-grid-wide-margin:    40px;
+}
+
+
+/* ============================================================
+   8. TYPE STYLE PRESETS
+   ============================================================ */
+
+.mh-display-5    { font: var(--mh-fw-bold) var(--mh-fs-display-5)/var(--mh-lh-display-5) var(--mh-font-default); }
+.mh-display-4    { font: var(--mh-fw-bold) var(--mh-fs-display-4)/var(--mh-lh-display-4) var(--mh-font-default); }
+.mh-display-3    { font: var(--mh-fw-bold) var(--mh-fs-display-3)/var(--mh-lh-display-3) var(--mh-font-default); }
+.mh-display-2    { font: var(--mh-fw-bold) var(--mh-fs-display-2)/var(--mh-lh-display-2) var(--mh-font-default); }
+.mh-display-1    { font: var(--mh-fw-bold) var(--mh-fs-display-1)/var(--mh-lh-display-1) var(--mh-font-default); }
+.mh-display-1-blog { font: var(--mh-fw-bold) var(--mh-fs-display-1-blog)/var(--mh-lh-display-1-blog) var(--mh-font-default); }
+
+.mh-title-1      { font: var(--mh-fw-bold) var(--mh-fs-title-1)/var(--mh-lh-title-1) var(--mh-font-default); }
+.mh-title-2      { font: var(--mh-fw-bold) var(--mh-fs-title-2)/var(--mh-lh-title-2) var(--mh-font-default); }
+
+.mh-subheading-1 { font: var(--mh-fw-semibold) var(--mh-fs-subheading-1)/var(--mh-lh-subheading-1) var(--mh-font-default); }
+.mh-subheading-2 { font: var(--mh-fw-semibold) var(--mh-fs-subheading-2)/var(--mh-lh-subheading-2) var(--mh-font-default); }
+.mh-subheading-2-blog { font: var(--mh-fw-bold) var(--mh-fs-subheading-2-blog)/var(--mh-lh-subheading-2-blog) var(--mh-font-default); }
+
+.mh-body-1         { font: var(--mh-fw-medium) var(--mh-fs-body-1)/var(--mh-lh-body-1) var(--mh-font-default); }
+.mh-body-1-relaxed { font: var(--mh-fw-medium) var(--mh-fs-body-1)/var(--mh-lh-body-1-relaxed) var(--mh-font-default); }
+.mh-body-1-blog    { font: var(--mh-fw-regular) var(--mh-fs-body-1-blog)/var(--mh-lh-body-1-blog) var(--mh-font-default); }
+.mh-body-2         { font: var(--mh-fw-medium) var(--mh-fs-body-2)/var(--mh-lh-body-2) var(--mh-font-default); }
+.mh-body-2-relaxed { font: var(--mh-fw-medium) var(--mh-fs-body-2)/var(--mh-lh-body-2-relaxed) var(--mh-font-default); }
+.mh-body-2-blog    { font: var(--mh-fw-regular) var(--mh-fs-body-2-blog)/var(--mh-lh-body-2-blog) var(--mh-font-default); }
+
+.mh-bullet-1     { font: var(--mh-fw-semibold) var(--mh-fs-bullet-1)/var(--mh-lh-bullet-1) var(--mh-font-default); }
+.mh-bullet-2     { font: var(--mh-fw-semibold) var(--mh-fs-bullet-2)/var(--mh-lh-bullet-2) var(--mh-font-default); }
+
+.mh-caption      { font: var(--mh-fw-medium) var(--mh-fs-caption)/var(--mh-lh-caption) var(--mh-font-default); color: var(--mh-text-muted); }
+.mh-overline     { font: var(--mh-fw-semibold) var(--mh-fs-overline)/var(--mh-lh-overline) var(--mh-font-default); letter-spacing: 0.08em; text-transform: uppercase; }
+.mh-tag          { font: var(--mh-fw-medium) var(--mh-fs-tag)/var(--mh-lh-tag) var(--mh-font-default); }
+.mh-badge        { font: var(--mh-fw-medium) var(--mh-fs-badge)/var(--mh-lh-badge) var(--mh-font-default); }
+.mh-breadcrumb   { font: var(--mh-fw-medium) var(--mh-fs-breadcrumb)/16px var(--mh-font-default); }
+
+.mh-button-sm    { font: var(--mh-fw-semibold) var(--mh-fs-button-sm)/18px var(--mh-font-default); }
+.mh-button-md    { font: var(--mh-fw-semibold) var(--mh-fs-button-md)/20px var(--mh-font-default); }
+
+.mh-underlined   { text-decoration: underline; }
+
+/* Chinese variant — apply via lang attribute */
+[lang^="zh"] {
+  --mh-font-default: var(--mh-font-zh);
+}
+
+
+/* ============================================================
+   9. ELEVATION PRESETS
+   ============================================================ */
+
+.mh-block            { border: 1px solid var(--mh-border-default); border-radius: var(--mh-radius-md); }
+.mh-block-interactive {
+  background: var(--mh-bg-page);
+  border-radius: var(--mh-radius-md);
+  box-shadow: var(--mh-shadow-block);
+  transition: box-shadow 160ms ease;
+}
+.mh-block-interactive:hover { box-shadow: var(--mh-shadow-block-hover); }
+
+
+/* ============================================================
+   10. FONT IMPORT
+   Comment out and self-host if shipping to production.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap');

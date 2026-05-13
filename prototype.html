@@ -4,21 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CHC Referral Program — Flow Prototype</title>
+<!-- MHG Alpha Design System tokens (colours, typography, shadows, breakpoints).
+     Sourced live from Figma — see Moneyhero Design System/tokens.css for details. -->
+<link rel="stylesheet" href="./tokens.css">
 <style>
+  /* ------------------------------------------------------------
+     Legacy variable aliases → tokens.css
+     Existing rules (268 references) keep using --mh-blue etc.;
+     these aliases resolve them to authoritative Figma values.
+     For NEW work, prefer tokens.css names directly:
+       --mh-primary-500, --mh-secondary-800, --mh-gray-700, etc.
+     ------------------------------------------------------------ */
   :root {
-    --mh-blue: #2257B8;
-    --mh-dark: #0B1D3A;
-    --mh-gold: #FFAF26;
-    --mh-gold-light: #FFF8E7;
-    --mh-teal: #00B8A9;
-    --mh-green: #00B67A;
-    --mh-red: #D0342C;
-    --g50: #F7FAFC; --g100: #EDF2F7; --g200: #E2E8F0;
-    --g300: #CBD5E0; --g400: #A0AEC0; --g500: #718096;
-    --g600: #4A5568; --g700: #2D3748; --g800: #1A202C;
+    --mh-blue:        var(--mh-primary-500);    /* var(--mh-primary-500) — MoneyHero HK signature */
+    --mh-dark:        var(--mh-primary-900);    /* #002981 */
+    --mh-gold:        var(--mh-secondary-800);  /* #FFAF26 — MoneyHero HK signature */
+    --mh-gold-light:  var(--mh-secondary-50);   /* #FFFEE8 */
+    --mh-green:       var(--seedly-secondary-500); /* #00B85D — used here as success/positive */
+    --mh-teal:        #00B8A9;                  /* not in MHG palette — kept as legacy */
+    --mh-red:         var(--mh-red);                  /* semantic error — kept as legacy */
+    /* Gray ramp now resolves to MHG Material-style grays */
+    --g50:  var(--mh-gray-50);
+    --g100: var(--mh-gray-100);
+    --g200: var(--mh-gray-200);
+    --g300: var(--mh-gray-300);
+    --g400: var(--mh-gray-400);
+    --g500: var(--mh-gray-500);
+    --g600: var(--mh-gray-600);
+    --g700: var(--mh-gray-700);
+    --g800: var(--mh-gray-800);
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans TC', 'PingFang HK', sans-serif; background: #e4e4e4; color: var(--g800); }
+  body { font-family: var(--mh-font-default); background: #e4e4e4; color: var(--mh-text-primary); }
 
   /* Proto Nav */
   .pnav { position:fixed; top:0; left:0; right:0; z-index:9999; background:#111827; display:flex; align-items:center; justify-content:center; padding:8px 12px; gap:5px; flex-wrap:wrap; }
@@ -27,7 +44,7 @@
   .pnav button:hover { background:rgba(255,255,255,0.14); color:#fff; }
   .pnav button.on { background:var(--mh-blue); border-color:var(--mh-blue); color:#fff; font-weight:600; }
   .pnav .sep { color:var(--g600); font-size:10px; margin:0 4px; }
-  .pnav .num { display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; background:var(--mh-gold); color:var(--g800); font-size:9px; font-weight:700; border-radius:50%; margin-right:3px; }
+  .pnav .num { display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; background:var(--mh-gold); color:var(--g800); font-size:9px; font-weight:700; border-radius:var(--mh-radius-full); margin-right:3px; }
   .pnav .v-tag { font-size:9px; font-weight:700; padding:2px 6px; border-radius:3px; margin:0 2px; }
   .pnav .v1 { background:var(--mh-green); color:#fff; }
   .pnav .v2 { background:var(--mh-blue); color:#fff; }
@@ -45,14 +62,14 @@
 
   /* Side panel */
   .side { flex:1; max-width:480px; padding-top:20px; }
-  .side h2 { font-size:18px; font-weight:800; margin-bottom:4px; }
-  .side .step-label { display:inline-block; color:#fff; font-size:10px; font-weight:700; padding:3px 8px; border-radius:4px; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px; }
+  .side h2 { font-size:var(--mh-fs-title-1); font-weight:800; margin-bottom:4px; }
+  .side .step-label { display:inline-block; color:#fff; font-size:10px; font-weight:700; padding:3px 8px; border-radius:var(--mh-radius-sm); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px; }
   .side .step-label.v1 { background:var(--mh-green); }
   .side .step-label.v2 { background:var(--mh-blue); }
   .side p { font-size:13px; color:var(--g600); line-height:1.7; margin-bottom:14px; }
   .side .detail-box { background:#fff; border:1px solid var(--g200); border-radius:10px; padding:14px; margin-bottom:12px; }
-  .side .detail-box h4 { font-size:12px; font-weight:700; color:var(--g700); margin-bottom:6px; display:flex; align-items:center; gap:6px; }
-  .side .detail-box p { font-size:12px; margin-bottom:6px; }
+  .side .detail-box h4 { font-size:var(--mh-fs-caption); font-weight:700; color:var(--g700); margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+  .side .detail-box p { font-size:var(--mh-fs-caption); margin-bottom:6px; }
   .side .detail-box .mono { font-family:'SF Mono', Monaco, 'Cascadia Code', monospace; font-size:11px; background:var(--g50); border:1px solid var(--g200); border-radius:6px; padding:8px 10px; color:var(--g700); margin-top:4px; word-break:break-all; }
   .side .tag { display:inline-block; font-size:9px; font-weight:700; padding:2px 6px; border-radius:3px; margin-right:4px; }
   .tag-mo { background:#E8D5F5; color:#6B21A8; }
@@ -63,62 +80,62 @@
   .tag-fe { background:#FFF7ED; color:#C2410C; }
 
   .arrow-down { text-align:center; padding:8px 0; }
-  .arrow-down span { display:inline-block; color:var(--g400); font-size:14px; }
+  .arrow-down span { display:inline-block; color:var(--g400); font-size:var(--mh-fs-body-2); }
 
   /* Email mock */
-  .email-mock { border-radius:12px; overflow:hidden; border:1px solid var(--g200); }
+  .email-mock { border-radius:var(--mh-radius-lg); overflow:hidden; border:1px solid var(--g200); }
   .email-bar { background:var(--g100); padding:10px 16px; display:flex; align-items:center; gap:8px; }
-  .email-bar .dot { width:8px; height:8px; border-radius:50%; }
+  .email-bar .dot { width:8px; height:8px; border-radius:var(--mh-radius-full); }
   .email-bar .dot.r { background:#E53E3E; } .email-bar .dot.y { background:#ECC94B; } .email-bar .dot.g { background:#48BB78; }
   .email-meta { padding:12px 16px; border-bottom:1px solid var(--g200); background:#fff; }
   .email-meta .from { font-size:11px; font-weight:600; }
   .email-meta .subj { font-size:13px; font-weight:700; margin-top:3px; }
   .email-meta .to { font-size:10px; color:var(--g400); margin-top:2px; }
   .email-body { padding:18px 16px; background:#fff; }
-  .email-body .logo-row { display:flex; align-items:center; gap:4px; font-size:16px; font-weight:800; margin-bottom:16px; }
+  .email-body .logo-row { display:flex; align-items:center; gap:4px; font-size:var(--mh-fs-body-1); font-weight:800; margin-bottom:16px; }
   .email-body .logo-row .m { color:var(--mh-blue); } .email-body .logo-row .h { color:var(--mh-gold); }
-  .email-body h3 { font-size:16px; font-weight:700; margin-bottom:6px; }
-  .email-body p { font-size:12px; color:var(--g600); line-height:1.7; margin-bottom:12px; }
-  .email-body .e-badge { display:flex; align-items:center; gap:10px; background:var(--mh-gold-light); border:1px solid #F0D88A; border-radius:8px; padding:10px; margin:14px 0; }
+  .email-body h3 { font-size:var(--mh-fs-body-1); font-weight:700; margin-bottom:6px; }
+  .email-body p { font-size:var(--mh-fs-caption); color:var(--g600); line-height:1.7; margin-bottom:12px; }
+  .email-body .e-badge { display:flex; align-items:center; gap:10px; background:var(--mh-gold-light); border:1px solid #F0D88A; border-radius:var(--mh-radius-md); padding:10px; margin:14px 0; }
   .email-body .e-badge .eb-ico { font-size:24px; }
   .email-body .e-badge .eb-txt { font-size:11px; color:var(--g600); line-height:1.5; }
   .email-body .e-badge .eb-txt strong { color:var(--g800); }
   .email-foot { padding:12px 16px; background:var(--g50); border-top:1px solid var(--g100); font-size:9px; color:var(--g400); text-align:center; line-height:1.6; }
 
   /* Share CTA in email */
-  .share-cta { display:flex; align-items:center; justify-content:center; gap:8px; background:var(--mh-blue); color:#fff; padding:14px 24px; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; text-decoration:none; margin:16px 0; border:none; width:100%; }
-  .share-cta:hover { background:#1A4A9E; }
+  .share-cta { display:flex; align-items:center; justify-content:center; gap:8px; background:var(--mh-blue); color:#fff; padding:14px 24px; border-radius:10px; font-size:var(--mh-fs-body-2); font-weight:700; cursor:pointer; text-decoration:none; margin:16px 0; border:none; width:100%; }
+  .share-cta:hover { background:var(--mh-primary-700); }
   .share-cta svg { flex-shrink:0; }
 
   /* Share sheet mock */
-  .share-sheet-mock { background:#F2F2F7; border-radius:16px; overflow:hidden; border:1px solid var(--g200); }
+  .share-sheet-mock { background:#F2F2F7; border-radius:var(--mh-radius-xl); overflow:hidden; border:1px solid var(--g200); }
   .share-sheet-header { background:#fff; padding:14px 16px; border-bottom:1px solid var(--g200); }
   .share-sheet-header .ss-title { font-size:13px; font-weight:700; text-align:center; margin-bottom:4px; }
   .share-sheet-header .ss-url { font-size:10px; color:var(--g400); text-align:center; }
   .share-sheet-apps { display:flex; gap:14px; padding:16px; overflow-x:auto; background:#fff; }
   .share-sheet-apps .ss-app { text-align:center; flex-shrink:0; width:56px; }
-  .share-sheet-apps .ss-app .ss-ico { width:48px; height:48px; border-radius:12px; margin:0 auto 4px; display:flex; align-items:center; justify-content:center; font-size:22px; }
+  .share-sheet-apps .ss-app .ss-ico { width:48px; height:48px; border-radius:var(--mh-radius-lg); margin:0 auto 4px; display:flex; align-items:center; justify-content:center; font-size:22px; }
   .share-sheet-apps .ss-app .ss-name { font-size:9px; color:var(--g600); }
-  .share-sheet-actions { background:#fff; margin-top:8px; border-radius:12px; overflow:hidden; }
+  .share-sheet-actions { background:#fff; margin-top:8px; border-radius:var(--mh-radius-lg); overflow:hidden; }
   .share-sheet-actions .ss-action { padding:12px 16px; border-bottom:1px solid var(--g100); font-size:13px; color:var(--mh-blue); display:flex; align-items:center; gap:10px; }
   .share-sheet-actions .ss-action:last-child { border:none; }
-  .share-sheet-actions .ss-action .ss-a-ico { font-size:16px; width:24px; text-align:center; }
+  .share-sheet-actions .ss-action .ss-a-ico { font-size:var(--mh-fs-body-1); width:24px; text-align:center; }
 
   /* Existing onboarding */
   .appbg { min-height:100%; background:linear-gradient(180deg, var(--mh-blue) 0%, var(--mh-dark) 100%); color:#fff; display:flex; flex-direction:column; }
   .apptop { padding:40px 18px 10px; display:flex; align-items:center; justify-content:space-between; }
-  .applogo { font-size:18px; font-weight:800; }
+  .applogo { font-size:var(--mh-fs-title-1); font-weight:800; }
   .applogo .am { color:#fff; } .applogo .ah { color:var(--mh-gold); }
   .aprog { display:flex; gap:3px; padding:0 18px 16px; }
   .aprog .b { flex:1; height:3px; border-radius:2px; background:rgba(255,255,255,0.12); }
   .aprog .b.d { background:var(--mh-gold); }
   .appcnt { flex:1; padding:0 22px; display:flex; flex-direction:column; align-items:center; text-align:center; }
-  .appill { width:100px; height:100px; background:rgba(255,255,255,0.06); border:2px solid rgba(255,255,255,0.1); border-radius:50%; margin-bottom:20px; display:flex; align-items:center; justify-content:center; font-size:48px; }
-  .appcnt h2 { font-size:20px; font-weight:700; margin-bottom:8px; line-height:1.3; }
+  .appill { width:100px; height:100px; background:rgba(255,255,255,0.06); border:2px solid rgba(255,255,255,0.1); border-radius:var(--mh-radius-full); margin-bottom:20px; display:flex; align-items:center; justify-content:center; font-size:48px; }
+  .appcnt h2 { font-size:var(--mh-fs-display-1); font-weight:700; margin-bottom:8px; line-height:1.3; }
   .appcnt .ds { font-size:13px; opacity:0.75; line-height:1.6; margin-bottom:22px; }
   .flist { width:100%; text-align:left; }
   .frow { display:flex; align-items:flex-start; gap:10px; padding:8px 0; }
-  .fchk { width:22px; height:22px; flex-shrink:0; background:var(--mh-gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--g800); }
+  .fchk { width:22px; height:22px; flex-shrink:0; background:var(--mh-gold); border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--g800); }
   .ftxt { font-size:13px; line-height:1.5; }
   .appfoot { padding:16px 22px 36px; }
   .bgold { width:100%; padding:15px; background:var(--mh-gold); color:var(--g800); border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; }
@@ -137,27 +154,27 @@
 
   /* ═══ CHC APP STYLES (matching wallet journey) ═══ */
   .chc-header { background:linear-gradient(135deg, var(--mh-dark), var(--mh-blue)); padding:44px 18px 18px; color:#fff; }
-  .chc-header .logo2 { font-size:16px; font-weight:800; margin-bottom:14px; }
+  .chc-header .logo2 { font-size:var(--mh-fs-body-1); font-weight:800; margin-bottom:14px; }
   .chc-header .logo2 .am { color:#fff; } .chc-header .logo2 .ah { color:var(--mh-gold); }
-  .chc-back { display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; cursor:pointer; }
+  .chc-back { display:flex; align-items:center; gap:8px; font-size:var(--mh-fs-body-2); font-weight:600; cursor:pointer; }
   .chc-back .arr { opacity:0.6; }
 
   /* My Challenges page */
-  .challenges-bg { min-height:100%; background:#F3F5F8; }
+  .challenges-bg { min-height:100%; background:var(--mh-gray-100); }
   .ch-section-title { padding:16px 16px 8px; font-size:13px; font-weight:700; color:var(--g500); text-transform:uppercase; letter-spacing:0.5px; }
 
-  .ch-card { background:#fff; border:1px solid var(--g200); border-radius:12px; margin:0 14px 10px; padding:14px; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; gap:12px; }
-  .ch-card:hover { border-color:var(--mh-blue); box-shadow:0 2px 8px rgba(34,87,184,0.1); }
+  .ch-card { background:#fff; border:1px solid var(--g200); border-radius:var(--mh-radius-lg); margin:0 14px 10px; padding:14px; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; gap:12px; }
+  .ch-card:hover { border-color:var(--mh-blue); box-shadow:var(--mh-shadow-md); }
   .ch-card .ch-ico { width:44px; height:44px; background:var(--g100); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
   .ch-card .ch-info { flex:1; }
   .ch-card .ch-name { font-size:13px; font-weight:700; margin-bottom:2px; }
   .ch-card .ch-desc { font-size:11px; color:var(--g500); line-height:1.4; }
   .ch-card .ch-streak { text-align:right; }
-  .ch-card .ch-streak .sv { font-size:18px; font-weight:800; color:var(--mh-blue); }
+  .ch-card .ch-streak .sv { font-size:var(--mh-fs-title-1); font-weight:800; color:var(--mh-blue); }
   .ch-card .ch-streak .sl { font-size:9px; color:var(--g400); }
   .ch-card .ch-badge { display:inline-block; font-size:9px; font-weight:700; padding:2px 6px; border-radius:3px; }
   .ch-badge-earned { background:#E6F9F1; color:#00875A; }
-  .ch-badge-progress { background:#EBF0FF; color:var(--mh-blue); }
+  .ch-badge-progress { background:var(--mh-primary-50); color:var(--mh-blue); }
 
   /* NEW card highlight */
   .ch-card.new-card { border:2px solid var(--mh-gold); background:var(--mh-gold-light); }
@@ -165,11 +182,11 @@
   .new-tag { position:absolute; top:-7px; right:10px; background:var(--mh-gold); color:var(--g800); font-size:8px; font-weight:700; padding:2px 6px; border-radius:3px; }
 
   /* Challenge detail page */
-  .cd-bg { min-height:100%; background:#F3F5F8; }
+  .cd-bg { min-height:100%; background:var(--mh-gray-100); }
   .cd-hero { background:linear-gradient(135deg, var(--mh-dark), var(--mh-blue)); padding:44px 18px 28px; color:#fff; text-align:center; }
   .cd-hero .cd-back { display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer; margin-bottom:18px; opacity:0.7; }
-  .cd-hero .cd-title { font-size:20px; font-weight:800; margin-bottom:4px; }
-  .cd-hero .cd-sub { font-size:12px; opacity:0.65; }
+  .cd-hero .cd-title { font-size:var(--mh-fs-display-1); font-weight:800; margin-bottom:4px; }
+  .cd-hero .cd-sub { font-size:var(--mh-fs-caption); opacity:0.65; }
 
   /* Progress ring */
   .progress-ring-wrap { margin:20px auto; position:relative; width:140px; height:140px; }
@@ -183,7 +200,7 @@
 
   /* Tier milestones */
   .tier-bar { display:flex; align-items:center; padding:0 18px; margin-top:16px; gap:0; }
-  .tier-dot { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; position:relative; z-index:2; }
+  .tier-dot { width:24px; height:24px; border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; position:relative; z-index:2; }
   .tier-dot.done { background:var(--mh-gold); color:var(--g800); }
   .tier-dot.current { background:#fff; color:var(--mh-blue); border:2px solid var(--mh-gold); }
   .tier-dot.locked { background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.4); }
@@ -193,83 +210,83 @@
   .tier-labels span { font-size:9px; opacity:0.5; text-align:center; width:32px; }
 
   /* Card sections */
-  .cd-card { background:#fff; border:1px solid var(--g200); border-radius:12px; margin:14px; overflow:hidden; }
+  .cd-card { background:#fff; border:1px solid var(--g200); border-radius:var(--mh-radius-lg); margin:14px; overflow:hidden; }
   .cd-card-h { padding:12px 14px; border-bottom:1px solid var(--g100); font-size:13px; font-weight:700; display:flex; align-items:center; gap:6px; }
   .cd-card-b { padding:14px; }
 
   /* Share section */
-  .share-section { background:#fff; border:1px solid var(--g200); border-radius:12px; margin:14px; padding:16px; }
+  .share-section { background:#fff; border:1px solid var(--g200); border-radius:var(--mh-radius-lg); margin:14px; padding:16px; }
   .share-section h4 { font-size:13px; font-weight:700; margin-bottom:4px; }
   .share-section .sh-sub { font-size:11px; color:var(--g500); margin-bottom:12px; }
-  .share-link-row { display:flex; align-items:center; gap:6px; background:var(--g50); border:1px solid var(--g200); border-radius:8px; padding:4px; margin-bottom:10px; }
+  .share-link-row { display:flex; align-items:center; gap:6px; background:var(--g50); border:1px solid var(--g200); border-radius:var(--mh-radius-md); padding:4px; margin-bottom:10px; }
   .share-link-row .url { flex:1; font-size:10px; color:var(--g600); padding:6px; font-family:monospace; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .share-link-row .copy-btn { background:var(--g700); color:#fff; border:none; border-radius:6px; padding:6px 12px; font-size:10px; font-weight:600; cursor:pointer; }
-  .native-share-btn { display:flex; align-items:center; justify-content:center; gap:8px; background:var(--mh-blue); color:#fff; border:none; border-radius:8px; padding:12px; font-size:13px; font-weight:700; cursor:pointer; width:100%; }
-  .native-share-btn:hover { background:#1A4A9E; }
+  .native-share-btn { display:flex; align-items:center; justify-content:center; gap:8px; background:var(--mh-blue); color:#fff; border:none; border-radius:var(--mh-radius-md); padding:12px; font-size:13px; font-weight:700; cursor:pointer; width:100%; }
+  .native-share-btn:hover { background:var(--mh-primary-700); }
 
   /* Friends list */
   .friend-row { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--g100); }
   .friend-row:last-child { border:none; }
-  .friend-av { width:32px; height:32px; background:var(--mh-blue); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:700; }
+  .friend-av { width:32px; height:32px; background:var(--mh-blue); border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; color:#fff; font-size:var(--mh-fs-caption); font-weight:700; }
   .friend-info { flex:1; }
-  .friend-info .fn { font-size:12px; font-weight:600; }
+  .friend-info .fn { font-size:var(--mh-fs-caption); font-weight:600; }
   .friend-info .fd { font-size:10px; color:var(--g400); }
-  .friend-check { color:var(--mh-green); font-size:16px; }
+  .friend-check { color:var(--mh-green); font-size:var(--mh-fs-body-1); }
 
   /* Bottom nav */
   .bnav { display:flex; background:#fff; border-top:1px solid var(--g200); padding:6px 0 22px; }
   .bnav .ni { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; font-size:9px; color:var(--g400); cursor:pointer; padding-top:6px; }
   .bnav .ni.on { color:var(--mh-blue); }
-  .bnav .ni .ic { font-size:18px; }
+  .bnav .ni .ic { font-size:var(--mh-fs-title-1); }
 
   /* Data flow */
   .flow-wrap { max-width:900px; margin:56px auto 30px; padding:20px; }
-  .flow-title { font-size:20px; font-weight:800; color:var(--g800); margin-bottom:4px; }
+  .flow-title { font-size:var(--mh-fs-display-1); font-weight:800; color:var(--g800); margin-bottom:4px; }
   .flow-sub { font-size:13px; color:var(--g500); margin-bottom:20px; }
-  .flow-diagram { background:#fff; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,0.06); padding:28px; }
+  .flow-diagram { background:#fff; border-radius:14px; box-shadow:var(--mh-shadow-default); padding:28px; }
   .flow-section { margin-bottom:24px; }
   .flow-section:last-child { margin-bottom:0; }
-  .flow-section h3 { font-size:14px; font-weight:700; color:var(--mh-blue); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-  .flow-section h3 .step-num { width:24px; height:24px; background:var(--mh-blue); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
+  .flow-section h3 { font-size:var(--mh-fs-body-2); font-weight:700; color:var(--mh-blue); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .flow-section h3 .step-num { width:24px; height:24px; background:var(--mh-blue); color:#fff; border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
   .flow-section h3 .v-badge { font-size:9px; font-weight:700; padding:2px 6px; border-radius:3px; }
   .flow-section h3 .v-badge.v1 { background:#D1FAE5; color:#065F46; }
   .flow-section h3 .v-badge.v2 { background:#DBEAFE; color:#1E40AF; }
   .flow-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
-  .flow-node { background:var(--g50); border:1px solid var(--g200); border-radius:8px; padding:8px 14px; font-size:12px; font-weight:500; white-space:nowrap; }
-  .flow-node.user { background:#EBF0FF; border-color:var(--mh-blue); color:var(--mh-blue); font-weight:600; }
+  .flow-node { background:var(--g50); border:1px solid var(--g200); border-radius:var(--mh-radius-md); padding:8px 14px; font-size:var(--mh-fs-caption); font-weight:500; white-space:nowrap; }
+  .flow-node.user { background:var(--mh-primary-50); border-color:var(--mh-blue); color:var(--mh-blue); font-weight:600; }
   .flow-node.system { background:#F0FFF4; border-color:var(--mh-green); color:#00875A; font-weight:600; }
   .flow-node.data { background:var(--mh-gold-light); border-color:#F0D88A; color:#B7791F; font-weight:600; }
   .flow-node.ext { background:#FFF5F5; border-color:#FEB2B2; color:#C53030; font-weight:600; }
   .flow-node.mo { background:#F3E8FF; border-color:#D8B4FE; color:#7C3AED; font-weight:600; }
-  .flow-arrow { color:var(--g400); font-size:16px; flex-shrink:0; }
+  .flow-arrow { color:var(--g400); font-size:var(--mh-fs-body-1); flex-shrink:0; }
   .flow-label { font-size:10px; color:var(--g500); font-style:italic; }
   .flow-divider { height:1px; background:var(--g200); margin:20px 0; }
-  .callout { padding:12px 14px; border-radius:8px; margin:12px 0; font-size:11px; line-height:1.6; }
+  .callout { padding:12px 14px; border-radius:var(--mh-radius-md); margin:12px 0; font-size:11px; line-height:1.6; }
   .callout.warn { background:#FFF5F5; border:1px solid #FEB2B2; color:#C53030; }
-  .callout.info { background:#EBF0FF; border:1px solid #BDD1F7; color:var(--mh-blue); }
+  .callout.info { background:var(--mh-primary-50); border:1px solid var(--mh-primary-100); color:var(--mh-blue); }
   .flow-legend { display:flex; gap:16px; flex-wrap:wrap; margin-top:20px; padding-top:16px; border-top:1px solid var(--g100); }
   .flow-legend .fl-item { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--g600); }
   .flow-legend .fl-dot { width:10px; height:10px; border-radius:3px; }
   .arch-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:12px; }
   .arch-box { border:1px solid var(--g200); border-radius:10px; padding:14px; text-align:center; }
   .arch-box .ab-ico { font-size:24px; margin-bottom:6px; }
-  .arch-box .ab-name { font-size:12px; font-weight:700; margin-bottom:2px; }
+  .arch-box .ab-name { font-size:var(--mh-fs-caption); font-weight:700; margin-bottom:2px; }
   .arch-box .ab-role { font-size:10px; color:var(--g500); line-height:1.4; }
   .arch-box.existing { border-style:dashed; }
   .arch-box.v1 { border-color:var(--mh-green); background:#F0FFF4; }
-  .arch-box.v2 { border-color:var(--mh-blue); background:#EBF0FF; }
+  .arch-box.v2 { border-color:var(--mh-blue); background:var(--mh-primary-50); }
   .arch-label { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
 </style>
 </head>
 <body>
 <!-- Password Gate -->
-<div id="auth-gate" style="position:fixed;inset:0;z-index:99999;background:#0B1D3A;display:flex;align-items:center;justify-content:center;">
-  <div style="background:#fff;padding:32px;border-radius:12px;max-width:340px;width:90%;text-align:center;">
-    <div style="font-size:14px;font-weight:700;color:#0B1D3A;margin-bottom:4px;">MoneyHero Internal</div>
-    <div style="font-size:12px;color:#718096;margin-bottom:16px;">Enter password to view prototype</div>
-    <input id="auth-pw" type="password" placeholder="Password" style="width:100%;padding:10px 12px;border:1px solid #CBD5E0;border-radius:8px;font-size:14px;margin-bottom:12px;" onkeydown="if(event.key==='Enter')authCheck()">
-    <button onclick="authCheck()" style="width:100%;padding:10px;background:#2257B8;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Enter</button>
-    <div id="auth-err" style="color:#D0342C;font-size:12px;margin-top:8px;display:none;">Incorrect password</div>
+<div id="auth-gate" style="position:fixed;inset:0;z-index:99999;background:var(--mh-primary-900);display:flex;align-items:center;justify-content:center;">
+  <div style="background:#fff;padding:32px;border-radius:var(--mh-radius-lg);max-width:340px;width:90%;text-align:center;">
+    <div style="font-size:var(--mh-fs-body-2);font-weight:700;color:var(--mh-primary-900);margin-bottom:4px;">MoneyHero Internal</div>
+    <div style="font-size:var(--mh-fs-caption);color:var(--mh-text-muted);margin-bottom:16px;">Enter password to view prototype</div>
+    <input id="auth-pw" type="password" placeholder="Password" style="width:100%;padding:10px 12px;border:1px solid var(--mh-border-strong);border-radius:var(--mh-radius-md);font-size:var(--mh-fs-body-2);margin-bottom:12px;" onkeydown="if(event.key==='Enter')authCheck()">
+    <button onclick="authCheck()" style="width:100%;padding:10px;background:var(--mh-primary-500);color:#fff;border:none;border-radius:var(--mh-radius-md);font-size:var(--mh-fs-body-2);font-weight:600;cursor:pointer;">Enter</button>
+    <div id="auth-err" style="color:var(--mh-red);font-size:var(--mh-fs-caption);margin-top:8px;display:none;">Incorrect password</div>
   </div>
 </div>
 <script>
@@ -313,7 +330,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
             <div class="to">To: sarah.c@email.com</div>
           </div>
           <div class="email-body">
-            <div class="logo-row"><span class="m">Money</span><span class="h">Hero</span></div>
+            <img src="./moneyhero-logo.svg" alt="MoneyHero" class="logo-row" style="height:20px; width:auto;">
             <h3>Share Credit Hero Club with friends and family</h3>
             <p>Hi Sarah,</p>
             <p>We're excited to launch our new <strong>Refer a Friend</strong> programme! Now you can invite the people you care about to take control of their credit health — for free.</p>
@@ -321,16 +338,16 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
             <div style="background:var(--g50); border:1px solid var(--g200); border-radius:10px; padding:14px; margin:14px 0;">
               <div style="font-size:13px; font-weight:700; margin-bottom:10px;">How it works</div>
               <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:8px;">
-                <div style="width:20px; height:20px; background:var(--mh-blue); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0;">1</div>
-                <div style="font-size:12px; color:var(--g600); line-height:1.5;"><strong>Share your link</strong> — tap the button below to send your personal invite to friends and family</div>
+                <div style="width:20px; height:20px; background:var(--mh-blue); color:#fff; border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0;">1</div>
+                <div style="font-size:var(--mh-fs-caption); color:var(--g600); line-height:1.5;"><strong>Share your link</strong> — tap the button below to send your personal invite to friends and family</div>
               </div>
               <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:8px;">
-                <div style="width:20px; height:20px; background:var(--mh-blue); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0;">2</div>
-                <div style="font-size:12px; color:var(--g600); line-height:1.5;"><strong>Friend joins CHC</strong> — they sign up and verify their identity to get their free credit score</div>
+                <div style="width:20px; height:20px; background:var(--mh-blue); color:#fff; border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0;">2</div>
+                <div style="font-size:var(--mh-fs-caption); color:var(--g600); line-height:1.5;"><strong>Friend joins CHC</strong> — they sign up and verify their identity to get their free credit score</div>
               </div>
               <div style="display:flex; align-items:flex-start; gap:8px;">
-                <div style="width:20px; height:20px; background:var(--mh-blue); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0;">3</div>
-                <div style="font-size:12px; color:var(--g600); line-height:1.5;"><strong>You earn a badge</strong> — unlock the Credit Champion badge and level up as you refer more friends</div>
+                <div style="width:20px; height:20px; background:var(--mh-blue); color:#fff; border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0;">3</div>
+                <div style="font-size:var(--mh-fs-caption); color:var(--g600); line-height:1.5;"><strong>You earn a badge</strong> — unlock the Credit Champion badge and level up as you refer more friends</div>
               </div>
             </div>
 
@@ -390,32 +407,32 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
       <div class="mscr" style="background:rgba(0,0,0,0.4);">
         <div style="padding:44px 14px 14px; opacity:0.3;">
           <div style="text-align:center; margin-bottom:16px;">
-            <div style="width:48px; height:48px; background:var(--mh-blue); border-radius:50%; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:800;">MH</div>
-            <div style="font-size:16px; font-weight:700; color:#fff;">Credit Hero Club</div>
-            <div style="font-size:12px; color:var(--g300); margin-top:2px;">Your credit score: 712</div>
+            <div style="width:48px; height:48px; background:var(--mh-blue); border-radius:var(--mh-radius-full); margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:var(--mh-fs-caption); font-weight:800;">MH</div>
+            <div style="font-size:var(--mh-fs-body-1); font-weight:700; color:#fff;">Credit Hero Club</div>
+            <div style="font-size:var(--mh-fs-caption); color:var(--g300); margin-top:2px;">Your credit score: 712</div>
           </div>
-          <div style="background:#fff; border-radius:12px; padding:16px; text-align:center; margin-bottom:12px;">
+          <div style="background:#fff; border-radius:var(--mh-radius-lg); padding:16px; text-align:center; margin-bottom:12px;">
             <div style="font-size:13px; font-weight:700; margin-bottom:4px;">Refer Friends, Earn Rewards</div>
             <div style="font-size:11px; color:var(--g500); margin-bottom:12px;">Share your unique link and earn points when friends sign up</div>
-            <div style="background:var(--mh-blue); color:#fff; padding:10px; border-radius:8px; font-size:13px; font-weight:600;">Share with Friends</div>
+            <div style="background:var(--mh-blue); color:#fff; padding:10px; border-radius:var(--mh-radius-md); font-size:13px; font-weight:600;">Share with Friends</div>
           </div>
-          <div style="background:#fff; border-radius:12px; padding:14px; display:flex; gap:8px; text-align:center;">
-            <div style="flex:1;"><div style="font-size:18px; font-weight:800; color:var(--mh-blue);">3</div><div style="font-size:9px; color:var(--g500);">Invited</div></div>
-            <div style="flex:1;"><div style="font-size:18px; font-weight:800; color:var(--mh-green);">1</div><div style="font-size:9px; color:var(--g500);">Joined</div></div>
-            <div style="flex:1;"><div style="font-size:18px; font-weight:800; color:var(--mh-gold);">50</div><div style="font-size:9px; color:var(--g500);">Points</div></div>
+          <div style="background:#fff; border-radius:var(--mh-radius-lg); padding:14px; display:flex; gap:8px; text-align:center;">
+            <div style="flex:1;"><div style="font-size:var(--mh-fs-title-1); font-weight:800; color:var(--mh-blue);">3</div><div style="font-size:9px; color:var(--g500);">Invited</div></div>
+            <div style="flex:1;"><div style="font-size:var(--mh-fs-title-1); font-weight:800; color:var(--mh-green);">1</div><div style="font-size:9px; color:var(--g500);">Joined</div></div>
+            <div style="flex:1;"><div style="font-size:var(--mh-fs-title-1); font-weight:800; color:var(--mh-gold);">50</div><div style="font-size:9px; color:var(--g500);">Points</div></div>
           </div>
         </div>
       </div>
       <!-- iOS-style share sheet — positioned relative to .mfr, NOT inside .mscr -->
       <div style="position:absolute; bottom:0; left:0; right:0; z-index:50;">
-        <div class="ann green" data-ann="NATIVE OS SHARE SHEET" style="background:#F2F2F7; border-radius:16px 16px 0 0; overflow:hidden;">
+        <div class="ann green" data-ann="NATIVE OS SHARE SHEET" style="background:#F2F2F7; border-radius:var(--mh-radius-xl) 16px 0 0; overflow:hidden;">
 
           <!-- Link preview -->
           <div style="background:#fff; padding:12px 16px; border-bottom:1px solid var(--g200);">
             <div style="display:flex; align-items:center; gap:10px;">
-              <div style="width:36px; height:36px; background:var(--mh-blue); border-radius:8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:10px; font-weight:800;">MH</div>
+              <div style="width:36px; height:36px; background:var(--mh-blue); border-radius:var(--mh-radius-md); display:flex; align-items:center; justify-content:center; color:#fff; font-size:10px; font-weight:800;">MH</div>
               <div>
-                <div style="font-size:12px; font-weight:600;">Credit Hero Club</div>
+                <div style="font-size:var(--mh-fs-caption); font-weight:600;">Credit Hero Club</div>
                 <div style="font-size:10px; color:var(--g400);">creditheroclub.moneyhero.com.hk/?ref=SC7X2K</div>
               </div>
             </div>
@@ -424,29 +441,29 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
           <!-- App row -->
           <div style="display:flex; gap:4px; padding:16px 12px; overflow-x:auto; background:#fff;">
             <div style="text-align:center; flex-shrink:0; width:64px;">
-              <div style="width:48px; height:48px; background:#25D366; border-radius:12px; margin:0 auto 4px; display:flex; align-items:center; justify-content:center;">
+              <div style="width:48px; height:48px; background:#25D366; border-radius:var(--mh-radius-lg); margin:0 auto 4px; display:flex; align-items:center; justify-content:center;">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
               </div>
               <div style="font-size:9px; color:var(--g600);">WhatsApp</div>
             </div>
             <div style="text-align:center; flex-shrink:0; width:64px;">
-              <div style="width:48px; height:48px; background:#0088CC; border-radius:12px; margin:0 auto 4px; display:flex; align-items:center; justify-content:center;">
+              <div style="width:48px; height:48px; background:#0088CC; border-radius:var(--mh-radius-lg); margin:0 auto 4px; display:flex; align-items:center; justify-content:center;">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
               </div>
               <div style="font-size:9px; color:var(--g600);">Telegram</div>
             </div>
             <div style="text-align:center; flex-shrink:0; width:64px;">
-              <div style="width:48px; height:48px; background:#34C759; border-radius:12px; margin:0 auto 4px; display:flex; align-items:center; justify-content:center; font-size:22px; color:#fff;">💬</div>
+              <div style="width:48px; height:48px; background:#34C759; border-radius:var(--mh-radius-lg); margin:0 auto 4px; display:flex; align-items:center; justify-content:center; font-size:22px; color:#fff;">💬</div>
               <div style="font-size:9px; color:var(--g600);">Messages</div>
             </div>
             <div style="text-align:center; flex-shrink:0; width:64px;">
-              <div style="width:48px; height:48px; background:#3A76F0; border-radius:12px; margin:0 auto 4px; display:flex; align-items:center; justify-content:center; font-size:22px; color:#fff;">
+              <div style="width:48px; height:48px; background:#3A76F0; border-radius:var(--mh-radius-lg); margin:0 auto 4px; display:flex; align-items:center; justify-content:center; font-size:22px; color:#fff;">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/></svg>
               </div>
               <div style="font-size:9px; color:var(--g600);">Signal</div>
             </div>
             <div style="text-align:center; flex-shrink:0; width:64px;">
-              <div style="width:48px; height:48px; background:var(--g200); border-radius:12px; margin:0 auto 4px; display:flex; align-items:center; justify-content:center; font-size:22px;">📡</div>
+              <div style="width:48px; height:48px; background:var(--g200); border-radius:var(--mh-radius-lg); margin:0 auto 4px; display:flex; align-items:center; justify-content:center; font-size:22px;">📡</div>
               <div style="font-size:9px; color:var(--g600);">AirDrop</div>
             </div>
           </div>
@@ -454,15 +471,15 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
           <!-- Action rows -->
           <div style="background:#fff; margin-top:8px;">
             <div style="padding:12px 16px; border-bottom:1px solid var(--g100); display:flex; align-items:center; gap:10px;">
-              <span style="font-size:16px; width:24px; text-align:center;">📋</span>
+              <span style="font-size:var(--mh-fs-body-1); width:24px; text-align:center;">📋</span>
               <span style="font-size:13px; color:var(--g800);">Copy Link</span>
             </div>
             <div style="padding:12px 16px; border-bottom:1px solid var(--g100); display:flex; align-items:center; gap:10px;">
-              <span style="font-size:16px; width:24px; text-align:center;">📧</span>
+              <span style="font-size:var(--mh-fs-body-1); width:24px; text-align:center;">📧</span>
               <span style="font-size:13px; color:var(--g800);">Mail</span>
             </div>
             <div style="padding:12px 16px; display:flex; align-items:center; gap:10px;">
-              <span style="font-size:16px; width:24px; text-align:center;">📝</span>
+              <span style="font-size:var(--mh-fs-body-1); width:24px; text-align:center;">📝</span>
               <span style="font-size:13px; color:var(--g800);">Notes</span>
             </div>
           </div>
@@ -502,10 +519,10 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
 
         <!-- MH Nav bar -->
         <div style="padding:40px 14px 0; display:flex; align-items:center; justify-content:space-between; background:#fff; border-bottom:1px solid var(--g200); padding-bottom:10px;">
-          <div style="font-size:16px; font-weight:800;"><span style="color:var(--mh-blue);">Money</span><span style="color:var(--mh-gold);">Hero</span></div>
+          <img src="./moneyhero-logo.svg" alt="MoneyHero" style="height:20px; width:auto; display:inline-block;">
           <div style="display:flex; align-items:center; gap:12px;">
-            <div style="font-size:10px; color:var(--mh-blue); font-weight:600; background:#EBF0FF; padding:3px 8px; border-radius:4px;">Login</div>
-            <div style="font-size:16px; color:var(--g400);">☰</div>
+            <div style="font-size:10px; color:var(--mh-blue); font-weight:600; background:var(--mh-primary-50); padding:3px 8px; border-radius:var(--mh-radius-sm);">Login</div>
+            <div style="font-size:var(--mh-fs-body-1); color:var(--g400);">☰</div>
           </div>
         </div>
 
@@ -514,7 +531,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
           <div style="font-size:11px; font-weight:600; color:var(--mh-blue); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">MoneyHero Credit Hero Club</div>
           <div style="font-size:17px; font-weight:800; color:var(--g800); line-height:1.4; margin-bottom:8px;">One-stop access to your complete credit profile</div>
           <div style="font-size:11px; color:var(--g600); line-height:1.6; margin-bottom:16px;">Get a holistic view of your credit. Check your credit score and report for free, and understand how lenders assess your credit performance.</div>
-          <button class="ann" data-ann="TOP CTA — VIEW CREDIT REPORT" onclick="go('verify')" style="background:var(--mh-gold); color:var(--g800); border:none; border-radius:8px; padding:12px 24px; font-size:13px; font-weight:700; cursor:pointer; box-shadow:0 2px 8px rgba(255,175,38,0.3);">View Credit Report</button>
+          <button class="ann" data-ann="TOP CTA — VIEW CREDIT REPORT" onclick="go('verify')" style="background:var(--mh-gold); color:var(--g800); border:none; border-radius:var(--mh-radius-md); padding:12px 24px; font-size:13px; font-weight:700; cursor:pointer; box-shadow:0 2px 8px rgba(255,175,38,0.3);">View Credit Report</button>
         </div>
 
         <!-- Feature cards — 2x3 grid -->
@@ -551,30 +568,30 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
         <div style="padding:12px 14px;">
           <div style="font-size:13px; font-weight:800; color:var(--g800); margin-bottom:8px;">Core Features Designed to Boost Your Credit Score</div>
           <div style="font-size:10px; color:var(--g500); line-height:1.5; margin-bottom:10px;">Boost your chances of acceptance with tips based on key info from your credit report and income data</div>
-          <div style="background:var(--g50); border:1px solid var(--g200); border-radius:8px; padding:10px; margin-bottom:6px;">
+          <div style="background:var(--g50); border:1px solid var(--g200); border-radius:var(--mh-radius-md); padding:10px; margin-bottom:6px;">
             <div style="font-size:11px; font-weight:700;">Check your credit score for free</div>
             <div style="font-size:10px; color:var(--g500); margin-top:2px;">Securely check your credit score instantly every time</div>
-            <div style="margin-top:4px; display:inline-block; font-size:8px; font-weight:600; color:var(--mh-blue); background:#EBF0FF; padding:2px 6px; border-radius:3px;">Powered by TransUnion</div>
+            <div style="margin-top:4px; display:inline-block; font-size:8px; font-weight:600; color:var(--mh-blue); background:var(--mh-primary-50); padding:2px 6px; border-radius:3px;">Powered by TransUnion</div>
           </div>
-          <div style="background:var(--g50); border:1px solid var(--g200); border-radius:8px; padding:10px; margin-bottom:6px;">
+          <div style="background:var(--g50); border:1px solid var(--g200); border-radius:var(--mh-radius-md); padding:10px; margin-bottom:6px;">
             <div style="font-size:11px; font-weight:700;">Improve Your Credit Score</div>
             <div style="font-size:10px; color:var(--g500); margin-top:2px;">6-month credit score trend tracking with improvement suggestions</div>
           </div>
-          <div style="background:var(--g50); border:1px solid var(--g200); border-radius:8px; padding:10px;">
+          <div style="background:var(--g50); border:1px solid var(--g200); border-radius:var(--mh-radius-md); padding:10px;">
             <div style="font-size:11px; font-weight:700;">Personalised Recommendations</div>
             <div style="font-size:10px; color:var(--g500); margin-top:2px;">Financial products recommended based on your credit score</div>
           </div>
         </div>
 
         <!-- Trust bar -->
-        <div style="margin:10px 14px; padding:12px; background:var(--g50); border-radius:8px; text-align:center;">
-          <div style="font-size:12px; font-weight:700; margin-bottom:4px;">🔒 Bank-Level Security for Your Data</div>
+        <div style="margin:10px 14px; padding:12px; background:var(--g50); border-radius:var(--mh-radius-md); text-align:center;">
+          <div style="font-size:var(--mh-fs-caption); font-weight:700; margin-bottom:4px;">🔒 Bank-Level Security for Your Data</div>
           <div style="font-size:10px; color:var(--g500); line-height:1.5;">Bank-level encryption · ISO 27001 certified · Third parties cannot access your data without consent</div>
         </div>
 
         <!-- Bottom CTA -->
         <div style="padding:14px;">
-          <button onclick="go('verify')" style="width:100%; background:var(--mh-gold); color:var(--g800); border:none; border-radius:10px; padding:14px; font-size:14px; font-weight:700; cursor:pointer;">View Credit Report</button>
+          <button onclick="go('verify')" style="width:100%; background:var(--mh-gold); color:var(--g800); border:none; border-radius:10px; padding:14px; font-size:var(--mh-fs-body-2); font-weight:700; cursor:pointer;">View Credit Report</button>
           <div style="text-align:center; margin-top:8px; font-size:11px; color:var(--g400);">Already a member? <span style="color:var(--mh-blue); text-decoration:underline; cursor:pointer;">Login</span></div>
         </div>
 
@@ -623,46 +640,46 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
         <!-- Browser chrome -->
         <div style="background:var(--g100); padding:38px 12px 6px; display:flex; align-items:center; gap:8px;">
           <div style="flex:1; background:#fff; border-radius:6px; padding:5px 10px; font-size:9px; color:var(--g500); font-family:monospace; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">creditheroclub.moneyhero.com.hk/en/auth</div>
-          <div style="font-size:12px; color:var(--g400);">↻</div>
+          <div style="font-size:var(--mh-fs-caption); color:var(--g400);">↻</div>
         </div>
 
         <!-- MoneyHero header -->
         <div style="text-align:center; padding:12px 0; border-bottom:1px solid var(--g200);">
-          <div style="font-size:16px; font-weight:800;"><span style="color:var(--mh-blue);">Money</span><span style="color:var(--mh-gold);">Hero</span></div>
+          <img src="./moneyhero-logo.svg" alt="MoneyHero" style="height:20px; width:auto; display:inline-block;">
         </div>
 
         <!-- Purple/blue gradient hero -->
         <div style="background:linear-gradient(180deg, #E8E0F0 0%, #D0C4E8 50%, #B8A8D8 100%); padding:24px 18px; text-align:center;">
-          <div style="font-size:12px; font-weight:600; color:var(--mh-gold);">免費獲取您的信用評分和報告</div>
-          <div style="font-size:16px; font-weight:800; color:var(--g800); margin-top:4px; line-height:1.4;">三個簡單步驟即可驗證您的身份</div>
+          <div style="font-size:var(--mh-fs-caption); font-weight:600; color:var(--mh-gold);">免費獲取您的信用評分和報告</div>
+          <div style="font-size:var(--mh-fs-body-1); font-weight:800; color:var(--g800); margin-top:4px; line-height:1.4;">三個簡單步驟即可驗證您的身份</div>
 
           <!-- Character illustration -->
-          <div style="margin:16px auto; width:80px; height:80px; background:rgba(255,255,255,0.5); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:40px;">🔒</div>
+          <div style="margin:16px auto; width:80px; height:80px; background:rgba(255,255,255,0.5); border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:40px;">🔒</div>
 
           <div style="font-size:11px; color:var(--g600); line-height:1.6; margin-bottom:16px;">完成身份驗證，以防止欺詐和身份盜竊，幫助您保持安全。生成的信用報告將在 24 小時後過期。</div>
 
           <!-- 3 verification steps -->
           <div style="display:flex; justify-content:center; gap:20px;">
             <div style="text-align:center;">
-              <div style="width:48px; height:48px; background:#fff; border-radius:50%; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:20px; box-shadow:0 2px 8px rgba(0,0,0,0.08); position:relative;">
+              <div style="width:48px; height:48px; background:#fff; border-radius:var(--mh-radius-full); margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:var(--mh-fs-display-1); box-shadow:0 2px 8px rgba(0,0,0,0.08); position:relative;">
                 🪪
-                <div style="position:absolute; bottom:-2px; right:-2px; width:18px; height:18px; background:var(--mh-blue); border-radius:50%; color:#fff; font-size:9px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid #fff;">1</div>
+                <div style="position:absolute; bottom:-2px; right:-2px; width:18px; height:18px; background:var(--mh-blue); border-radius:var(--mh-radius-full); color:#fff; font-size:9px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid #fff;">1</div>
               </div>
               <div style="font-size:10px; font-weight:700;">拍攝</div>
               <div style="font-size:9px; color:var(--g500);">香港身份證</div>
             </div>
             <div style="text-align:center;">
-              <div style="width:48px; height:48px; background:#fff; border-radius:50%; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:20px; box-shadow:0 2px 8px rgba(0,0,0,0.08); position:relative;">
+              <div style="width:48px; height:48px; background:#fff; border-radius:var(--mh-radius-full); margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:var(--mh-fs-display-1); box-shadow:0 2px 8px rgba(0,0,0,0.08); position:relative;">
                 📋
-                <div style="position:absolute; bottom:-2px; right:-2px; width:18px; height:18px; background:var(--mh-blue); border-radius:50%; color:#fff; font-size:9px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid #fff;">2</div>
+                <div style="position:absolute; bottom:-2px; right:-2px; width:18px; height:18px; background:var(--mh-blue); border-radius:var(--mh-radius-full); color:#fff; font-size:9px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid #fff;">2</div>
               </div>
               <div style="font-size:10px; font-weight:700;">驗證</div>
               <div style="font-size:9px; color:var(--g500);">香港身份證資料</div>
             </div>
             <div style="text-align:center;">
-              <div style="width:48px; height:48px; background:#fff; border-radius:50%; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:20px; box-shadow:0 2px 8px rgba(0,0,0,0.08); position:relative;">
+              <div style="width:48px; height:48px; background:#fff; border-radius:var(--mh-radius-full); margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:var(--mh-fs-display-1); box-shadow:0 2px 8px rgba(0,0,0,0.08); position:relative;">
                 🤳
-                <div style="position:absolute; bottom:-2px; right:-2px; width:18px; height:18px; background:var(--mh-blue); border-radius:50%; color:#fff; font-size:9px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid #fff;">3</div>
+                <div style="position:absolute; bottom:-2px; right:-2px; width:18px; height:18px; background:var(--mh-blue); border-radius:var(--mh-radius-full); color:#fff; font-size:9px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid #fff;">3</div>
               </div>
               <div style="font-size:10px; font-weight:700;">臉部掃描</div>
               <div style="font-size:9px; color:var(--g500);">自拍</div>
@@ -674,9 +691,9 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
         <div style="padding:16px 18px;">
           <div style="font-size:13px; font-weight:800; margin-bottom:10px;">請閱讀以下提示</div>
           <div style="background:var(--g50); border:1px solid var(--g200); border-radius:10px; padding:12px; display:flex; align-items:center; gap:10px;">
-            <div style="width:40px; height:40px; background:#EBF0FF; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0;">🪪</div>
+            <div style="width:40px; height:40px; background:var(--mh-primary-50); border-radius:var(--mh-radius-md); display:flex; align-items:center; justify-content:center; font-size:var(--mh-fs-display-1); flex-shrink:0;">🪪</div>
             <div>
-              <div style="font-size:12px; font-weight:700;">香港身份證資料</div>
+              <div style="font-size:var(--mh-fs-caption); font-weight:700;">香港身份證資料</div>
               <div style="font-size:10px; color:var(--g500); line-height:1.5; margin-top:2px;">香港身份證 具有前後置攝像頭的手機 為獲得最佳效果，請使用您的手機完成此過程</div>
             </div>
           </div>
@@ -685,14 +702,14 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
         <!-- FAQ section -->
         <div style="padding:0 18px 16px;">
           <div style="font-size:13px; font-weight:800; margin-bottom:8px;">常見問題</div>
-          <div style="border:1px solid var(--g200); border-radius:8px; overflow:hidden;">
+          <div style="border:1px solid var(--g200); border-radius:var(--mh-radius-md); overflow:hidden;">
             <div style="padding:10px 12px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--g100); cursor:pointer;">
               <div style="font-size:11px; font-weight:600;">為什麼你們需要我的個人資料？</div>
-              <div style="font-size:12px; color:var(--g400);">∨</div>
+              <div style="font-size:var(--mh-fs-caption); color:var(--g400);">∨</div>
             </div>
             <div style="padding:10px 12px; display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
               <div style="font-size:11px; font-weight:600;">我的個人資料會作何用途？</div>
-              <div style="font-size:12px; color:var(--g400);">∨</div>
+              <div style="font-size:var(--mh-fs-caption); color:var(--g400);">∨</div>
             </div>
           </div>
         </div>
@@ -700,7 +717,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
         <!-- Consent + CTA -->
         <div style="background:var(--g50); border-top:1px solid var(--g200); padding:14px 18px;">
           <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:12px;">
-            <div style="width:18px; height:18px; background:var(--mh-blue); border-radius:4px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:10px; flex-shrink:0; margin-top:1px;">✓</div>
+            <div style="width:18px; height:18px; background:var(--mh-blue); border-radius:var(--mh-radius-sm); display:flex; align-items:center; justify-content:center; color:#fff; font-size:10px; flex-shrink:0; margin-top:1px;">✓</div>
             <div style="font-size:10px; color:var(--g600); line-height:1.5;">
               <strong>我已閱讀並同意以下所有條款：</strong><br>
               <span style="color:var(--mh-blue); text-decoration:underline;">• 同意收集及轉移信貸資料</span><br>
@@ -708,7 +725,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
               <span style="color:var(--mh-blue); text-decoration:underline;">• CreditHero 條款及細則</span>
             </div>
           </div>
-          <button onclick="go('backend')" style="width:100%; background:linear-gradient(135deg, #2D1B69, var(--mh-blue)); color:#fff; border:none; border-radius:10px; padding:14px; font-size:14px; font-weight:700; cursor:pointer;">同意並繼續</button>
+          <button onclick="go('backend')" style="width:100%; background:linear-gradient(135deg, #2D1B69, var(--mh-blue)); color:#fff; border:none; border-radius:10px; padding:14px; font-size:var(--mh-fs-body-2); font-weight:700; cursor:pointer;">同意並繼續</button>
         </div>
       </div>
 
@@ -757,10 +774,10 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
     <div class="mfr"><div class="mnotch"></div><div class="mscr">
       <div style="min-height:100%; background:#fff; display:flex; flex-direction:column;">
         <div style="padding:44px 18px 10px;">
-          <div style="font-size:16px; font-weight:800;"><span style="color:var(--mh-blue);">Money</span><span style="color:var(--mh-gold);">Hero</span></div>
+          <img src="./moneyhero-logo.svg" alt="MoneyHero" style="height:20px; width:auto; display:inline-block;">
         </div>
         <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 28px; text-align:center;">
-          <div style="width:90px; height:90px; background:linear-gradient(135deg, var(--mh-green), var(--mh-teal)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:42px; margin-bottom:20px; color:#fff;">✓</div>
+          <div style="width:90px; height:90px; background:linear-gradient(135deg, var(--mh-green), var(--mh-teal)); border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:42px; margin-bottom:20px; color:#fff;">✓</div>
           <h2 style="font-size:22px; font-weight:800; margin-bottom:8px;">Welcome, Alex!</h2>
           <p style="font-size:13px; color:var(--g500); line-height:1.6; margin-bottom:24px;">Your Credit Hero Club account is ready. Your first credit score will appear within 24 hours.</p>
           <button class="bblue">Go to Dashboard</button>
@@ -768,7 +785,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
       </div>
 
       <div style="position:absolute; bottom:40px; left:14px; right:14px; z-index:50;">
-        <div class="ann" data-ann="BACKEND ACTIVITY (INVISIBLE)" style="background:var(--g800); border-radius:8px; padding:12px; font-family:'SF Mono', Monaco, monospace; font-size:10px; color:#E2E8F0; line-height:1.8;">
+        <div class="ann" data-ann="BACKEND ACTIVITY (INVISIBLE)" style="background:var(--g800); border-radius:var(--mh-radius-md); padding:12px; font-family:'SF Mono', Monaco, monospace; font-size:10px; color:#E2E8F0; line-height:1.8;">
           <div style="color:var(--mh-green);">✓ Account created: alex@email.com</div>
           <div style="color:var(--mh-green);">✓ referred_by: SC7X2K → DB</div>
           <div style="color:var(--mh-gold);">→ T1: session update (ref code, closed)</div>
@@ -821,30 +838,30 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
 <div id="s-challenges" class="scr">
   <div class="frame-wrap">
     <div class="mfr"><div class="mnotch"></div><div class="mscr">
-      <div style="min-height:100%; background:#F3F5F8;">
+      <div style="min-height:100%; background:var(--mh-gray-100);">
 
         <!-- Purple header matching screenshot -->
         <div style="background:linear-gradient(135deg, #2D1B69 0%, #1A1145 100%); padding:44px 16px 18px; color:#fff;">
           <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
-            <div style="font-size:16px; font-weight:800;"><span style="color:#fff;">Money</span><span style="color:var(--mh-gold);">Hero</span></div>
-            <div style="font-size:16px; opacity:0.5; cursor:pointer;">⎋</div>
+            <img src="./moneyhero-logo-white.svg" alt="MoneyHero" style="height:20px; width:auto; display:inline-block;">
+            <div style="font-size:var(--mh-fs-body-1); opacity:0.5; cursor:pointer;">⎋</div>
           </div>
           <div style="font-size:11px; opacity:0.5; margin-bottom:2px;">🏠 / My Challenges</div>
-          <div style="font-size:20px; font-weight:800;">My Challenges</div>
+          <div style="font-size:var(--mh-fs-display-1); font-weight:800;">My Challenges</div>
           <div style="font-size:11px; opacity:0.5; margin-top:2px;">Last updated: 9 Apr 2026 3:15pm</div>
-          <div style="font-size:12px; opacity:0.6; margin-top:4px;">Build healthy credit habits ... <span style="text-decoration:underline; cursor:pointer;">show more</span></div>
+          <div style="font-size:var(--mh-fs-caption); opacity:0.6; margin-top:4px;">Build healthy credit habits ... <span style="text-decoration:underline; cursor:pointer;">show more</span></div>
         </div>
 
         <!-- Achievements box -->
         <div style="background:#fff; margin:12px 14px; border-radius:10px; padding:14px; border:1px solid var(--g200);">
           <div style="font-size:11px; color:var(--g500); display:flex; align-items:center; gap:4px;">✦ Achievements</div>
           <div style="font-size:28px; font-weight:800; margin:4px 0 8px;">29 <span style="font-size:13px; font-weight:400; color:var(--g500);">badges collected</span></div>
-          <div style="background:linear-gradient(135deg, #2D1B69, #1A1145); color:#fff; text-align:center; padding:10px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer;">View My Earned Badges</div>
+          <div style="background:linear-gradient(135deg, #2D1B69, #1A1145); color:#fff; text-align:center; padding:10px; border-radius:var(--mh-radius-md); font-size:var(--mh-fs-caption); font-weight:600; cursor:pointer;">View My Earned Badges</div>
         </div>
 
         <!-- Build Good Credit Habits -->
         <div style="padding:4px 16px 6px;">
-          <div style="font-size:14px; font-weight:800; color:var(--mh-blue);">Build Good Credit Habits</div>
+          <div style="font-size:var(--mh-fs-body-2); font-weight:800; color:var(--mh-blue);">Build Good Credit Habits</div>
           <div style="font-size:11px; color:var(--g500);">Strengthen your credit profile through these habits</div>
         </div>
 
@@ -852,76 +869,76 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:8px 14px;">
 
           <!-- Monthly Check-In -->
-          <div style="background:#fff; border:1px solid var(--g200); border-radius:12px; padding:14px; text-align:center; cursor:pointer;" onclick="">
-            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:50%; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; font-weight:800; position:relative;">
+          <div style="background:#fff; border:1px solid var(--g200); border-radius:var(--mh-radius-lg); padding:14px; text-align:center; cursor:pointer;" onclick="">
+            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:var(--mh-radius-full); margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:var(--mh-fs-title-1); font-weight:800; position:relative;">
               20m
-              <div style="position:absolute; bottom:-2px; right:-2px; width:24px; height:24px; background:var(--mh-gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; border:2px solid #fff;">🌸</div>
+              <div style="position:absolute; bottom:-2px; right:-2px; width:24px; height:24px; background:var(--mh-gold); border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:var(--mh-fs-caption); border:2px solid #fff;">🌸</div>
             </div>
-            <div style="font-size:12px; font-weight:700; color:var(--mh-blue);">Monthly Check-In</div>
+            <div style="font-size:var(--mh-fs-caption); font-weight:700; color:var(--mh-blue);">Monthly Check-In</div>
             <div style="font-size:10px; color:var(--g400); margin-top:4px;">Another 2 months to earn a quarter badge!</div>
           </div>
 
           <!-- Healthy Credit Grade -->
-          <div style="background:#fff; border:1px solid var(--g200); border-radius:12px; padding:14px; text-align:center; cursor:pointer;">
-            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:50%; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; font-weight:800; position:relative;">
+          <div style="background:#fff; border:1px solid var(--g200); border-radius:var(--mh-radius-lg); padding:14px; text-align:center; cursor:pointer;">
+            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:var(--mh-radius-full); margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:var(--mh-fs-title-1); font-weight:800; position:relative;">
               20m
-              <div style="position:absolute; bottom:-2px; right:-2px; width:24px; height:24px; background:var(--mh-gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; border:2px solid #fff;">🏆</div>
+              <div style="position:absolute; bottom:-2px; right:-2px; width:24px; height:24px; background:var(--mh-gold); border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:var(--mh-fs-caption); border:2px solid #fff;">🏆</div>
             </div>
-            <div style="font-size:12px; font-weight:700; color:var(--mh-blue);">Healthy Credit Grade</div>
+            <div style="font-size:var(--mh-fs-caption); font-weight:700; color:var(--mh-blue);">Healthy Credit Grade</div>
             <div style="font-size:10px; color:var(--g400); margin-top:4px;">Another 2 months to earn a quarter badge!</div>
           </div>
 
           <!-- On-Time Payment -->
-          <div style="background:#fff; border:1px solid var(--g200); border-radius:12px; padding:14px; text-align:center; cursor:pointer;">
-            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:50%; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; font-weight:800; position:relative;">
+          <div style="background:#fff; border:1px solid var(--g200); border-radius:var(--mh-radius-lg); padding:14px; text-align:center; cursor:pointer;">
+            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:var(--mh-radius-full); margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:var(--mh-fs-title-1); font-weight:800; position:relative;">
               20m
-              <div style="position:absolute; bottom:-2px; right:-2px; width:24px; height:24px; background:var(--mh-gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; border:2px solid #fff;">💰</div>
+              <div style="position:absolute; bottom:-2px; right:-2px; width:24px; height:24px; background:var(--mh-gold); border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:var(--mh-fs-caption); border:2px solid #fff;">💰</div>
             </div>
-            <div style="font-size:12px; font-weight:700; color:var(--mh-blue);">On-Time Payment</div>
+            <div style="font-size:var(--mh-fs-caption); font-weight:700; color:var(--mh-blue);">On-Time Payment</div>
             <div style="font-size:10px; color:var(--g400); margin-top:4px;">Another 2 months to earn a quarter badge!</div>
           </div>
 
           <!-- Balanced Credit Use -->
-          <div style="background:#fff; border:1px solid var(--g200); border-radius:12px; padding:14px; text-align:center; cursor:pointer;">
-            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:50%; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; font-weight:800; position:relative;">
+          <div style="background:#fff; border:1px solid var(--g200); border-radius:var(--mh-radius-lg); padding:14px; text-align:center; cursor:pointer;">
+            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:var(--mh-radius-full); margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:var(--mh-fs-title-1); font-weight:800; position:relative;">
               20m
-              <div style="position:absolute; bottom:-2px; right:-2px; width:24px; height:24px; background:var(--mh-gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; border:2px solid #fff;">♻️</div>
+              <div style="position:absolute; bottom:-2px; right:-2px; width:24px; height:24px; background:var(--mh-gold); border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:var(--mh-fs-caption); border:2px solid #fff;">♻️</div>
             </div>
-            <div style="font-size:12px; font-weight:700; color:var(--mh-blue);">Balanced Credit Use</div>
+            <div style="font-size:var(--mh-fs-caption); font-weight:700; color:var(--mh-blue);">Balanced Credit Use</div>
             <div style="font-size:10px; color:var(--g400); margin-top:4px;">Another 2 months to earn a quarter badge!</div>
           </div>
 
           <!-- Balanced Credit Mix -->
-          <div style="background:#fff; border:1px solid var(--g200); border-radius:12px; padding:14px; text-align:center; cursor:pointer;">
-            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:50%; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; font-weight:800; position:relative;">
+          <div style="background:#fff; border:1px solid var(--g200); border-radius:var(--mh-radius-lg); padding:14px; text-align:center; cursor:pointer;">
+            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:var(--mh-radius-full); margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:var(--mh-fs-title-1); font-weight:800; position:relative;">
               <div style="font-size:24px;">🏛️</div>
             </div>
-            <div style="font-size:12px; font-weight:700; color:var(--mh-blue);">Balanced Credit Mix</div>
+            <div style="font-size:var(--mh-fs-caption); font-weight:700; color:var(--mh-blue);">Balanced Credit Mix</div>
             <div style="font-size:10px; color:var(--g400); margin-top:4px;">Another 2 months to earn a quarter badge!</div>
           </div>
 
           <!-- Established Credit History -->
-          <div style="background:#fff; border:1px solid var(--g200); border-radius:12px; padding:14px; text-align:center; cursor:pointer;">
-            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:50%; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; font-weight:800; position:relative;">
+          <div style="background:#fff; border:1px solid var(--g200); border-radius:var(--mh-radius-lg); padding:14px; text-align:center; cursor:pointer;">
+            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:var(--mh-radius-full); margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:var(--mh-fs-title-1); font-weight:800; position:relative;">
               <div style="font-size:24px;">🎂</div>
             </div>
-            <div style="font-size:12px; font-weight:700; color:var(--mh-blue);">Established Credit History</div>
+            <div style="font-size:var(--mh-fs-caption); font-weight:700; color:var(--mh-blue);">Established Credit History</div>
             <div style="font-size:10px; color:var(--g400); margin-top:4px;">Another 2 months to earn a quarter badge!</div>
           </div>
         </div>
 
         <!-- Credit Hero Champion — NEW referral card -->
         <div style="padding:12px 16px 6px;">
-          <div style="font-size:14px; font-weight:800; color:var(--mh-blue);">Refer a Friend</div>
+          <div style="font-size:var(--mh-fs-body-2); font-weight:800; color:var(--mh-blue);">Refer a Friend</div>
         </div>
 
         <div style="padding:0 14px 10px;">
-          <div class="ann gold" data-ann="NEW — v1" onclick="go('detail')" style="background:#fff; border:2px solid var(--mh-gold); border-radius:12px; padding:14px; text-align:center; cursor:pointer; position:relative;">
-            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:50%; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:22px; font-weight:800; position:relative;">
+          <div class="ann gold" data-ann="NEW — v1" onclick="go('detail')" style="background:#fff; border:2px solid var(--mh-gold); border-radius:var(--mh-radius-lg); padding:14px; text-align:center; cursor:pointer; position:relative;">
+            <div style="width:64px; height:64px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:var(--mh-radius-full); margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:22px; font-weight:800; position:relative;">
               1
-              <div style="position:absolute; bottom:-2px; right:-2px; width:24px; height:24px; background:var(--mh-gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; border:2px solid #fff;">🤝</div>
+              <div style="position:absolute; bottom:-2px; right:-2px; width:24px; height:24px; background:var(--mh-gold); border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:var(--mh-fs-caption); border:2px solid #fff;">🤝</div>
             </div>
-            <div style="font-size:12px; font-weight:700; color:var(--mh-blue);">Credit Hero Champion</div>
+            <div style="font-size:var(--mh-fs-caption); font-weight:700; color:var(--mh-blue);">Credit Hero Champion</div>
             <div style="font-size:10px; color:var(--g400); margin-top:4px;">1 friend referred. 2 more for Lvl. 2!</div>
           </div>
         </div>
@@ -959,18 +976,18 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
 <div id="s-detail" class="scr">
   <div class="frame-wrap">
     <div class="mfr"><div class="mnotch"></div><div class="mscr">
-      <div style="min-height:100%; background:#F3F5F8;">
+      <div style="min-height:100%; background:var(--mh-gray-100);">
 
         <!-- Purple header with breadcrumb -->
         <div style="background:linear-gradient(135deg, #2D1B69 0%, #1A1145 100%); padding:44px 16px 18px; color:#fff;">
           <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
-            <div style="font-size:16px; font-weight:800;"><span style="color:#fff;">Money</span><span style="color:var(--mh-gold);">Hero</span></div>
-            <div style="font-size:16px; opacity:0.5; cursor:pointer;">⎋</div>
+            <img src="./moneyhero-logo-white.svg" alt="MoneyHero" style="height:20px; width:auto; display:inline-block;">
+            <div style="font-size:var(--mh-fs-body-1); opacity:0.5; cursor:pointer;">⎋</div>
           </div>
           <div style="font-size:11px; opacity:0.5; margin-bottom:2px;">🏠 / <span style="cursor:pointer; text-decoration:underline;" onclick="go('challenges')">My Challenges</span> / <span style="text-decoration:underline;">Credit Hero Champion</span></div>
-          <div style="font-size:20px; font-weight:800;">Credit Hero Champion</div>
+          <div style="font-size:var(--mh-fs-display-1); font-weight:800;">Credit Hero Champion</div>
           <div style="font-size:11px; opacity:0.5; margin-top:2px;">Report updated: Apr 9, 2026 3:15pm</div>
-          <div style="font-size:12px; opacity:0.6; margin-top:4px;">Refer friends to Credit Hero Club and earn badges ... <span style="text-decoration:underline; cursor:pointer;">show more</span></div>
+          <div style="font-size:var(--mh-fs-caption); opacity:0.6; margin-top:4px;">Refer friends to Credit Hero Club and earn badges ... <span style="text-decoration:underline; cursor:pointer;">show more</span></div>
         </div>
 
         <!-- Main content -->
@@ -978,36 +995,36 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
 
           <!-- Blue circle with referral count — matching screenshot pattern -->
           <div style="background:#fff; border-radius:14px; padding:24px 16px; text-align:center; border:1px solid var(--g200); margin-bottom:14px;">
-            <div style="width:120px; height:120px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:50%; margin:0 auto 14px; display:flex; align-items:center; justify-content:center; position:relative;">
+            <div style="width:120px; height:120px; background:linear-gradient(135deg, #3B82F6, #2563EB); border-radius:var(--mh-radius-full); margin:0 auto 14px; display:flex; align-items:center; justify-content:center; position:relative;">
               <div style="color:#fff; font-size:36px; font-weight:800;">1</div>
-              <div style="position:absolute; bottom:4px; right:4px; width:32px; height:32px; background:var(--mh-gold); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; border:3px solid #fff;">🤝</div>
+              <div style="position:absolute; bottom:4px; right:4px; width:32px; height:32px; background:var(--mh-gold); border-radius:var(--mh-radius-full); display:flex; align-items:center; justify-content:center; font-size:var(--mh-fs-body-1); border:3px solid #fff;">🤝</div>
             </div>
-            <div style="font-size:16px; font-weight:800; color:var(--g800);">Credit Hero Champion</div>
+            <div style="font-size:var(--mh-fs-body-1); font-weight:800; color:var(--g800);">Credit Hero Champion</div>
             <div style="font-size:13px; font-weight:600; margin-top:4px;">1 Friend Referred</div>
-            <div style="font-size:12px; color:var(--g500); margin-top:4px; line-height:1.5;">Refer 2 more friends to reach<br>Credit Hero Champion Lvl. 2!</div>
+            <div style="font-size:var(--mh-fs-caption); color:var(--g500); margin-top:4px; line-height:1.5;">Refer 2 more friends to reach<br>Credit Hero Champion Lvl. 2!</div>
           </div>
 
           <!-- Progress Milestones — matching screenshot badge grid -->
           <div style="background:#fff; border-radius:14px; padding:16px; border:1px solid var(--g200); margin-bottom:14px;">
-            <div style="font-size:14px; font-weight:800; margin-bottom:12px;">Progress Milestones</div>
+            <div style="font-size:var(--mh-fs-body-2); font-weight:800; margin-bottom:12px;">Progress Milestones</div>
             <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
               <!-- L1 — Earned -->
               <div style="text-align:center;">
-                <div style="width:56px; height:56px; background:linear-gradient(135deg, var(--mh-gold), #FFD700); border-radius:50%; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:24px; box-shadow:0 2px 8px rgba(255,175,38,0.3);">🏆</div>
+                <div style="width:56px; height:56px; background:linear-gradient(135deg, var(--mh-gold), #FFD700); border-radius:var(--mh-radius-full); margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:24px; box-shadow:0 2px 8px rgba(255,175,38,0.3);">🏆</div>
                 <div style="font-size:10px; font-weight:700; color:var(--g800);">Credit Hero Champion</div>
                 <div style="font-size:9px; color:var(--g500);">Lvl. 1</div>
                 <div style="font-size:9px; color:var(--mh-green); font-weight:600;">✓ Earned</div>
               </div>
               <!-- L2 — Next -->
               <div style="text-align:center;">
-                <div style="width:56px; height:56px; background:var(--g200); border-radius:50%; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:24px; opacity:0.4;">🏆</div>
+                <div style="width:56px; height:56px; background:var(--g200); border-radius:var(--mh-radius-full); margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:24px; opacity:0.4;">🏆</div>
                 <div style="font-size:10px; font-weight:700; color:var(--g500);">Credit Hero Champion</div>
                 <div style="font-size:9px; color:var(--g400);">Lvl. 2</div>
                 <div style="font-size:9px; color:var(--g400);">3 friends</div>
               </div>
               <!-- L3 — Locked -->
               <div style="text-align:center;">
-                <div style="width:56px; height:56px; background:var(--g200); border-radius:50%; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:24px; opacity:0.4;">🏆</div>
+                <div style="width:56px; height:56px; background:var(--g200); border-radius:var(--mh-radius-full); margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:24px; opacity:0.4;">🏆</div>
                 <div style="font-size:10px; font-weight:700; color:var(--g500);">Credit Hero Champion</div>
                 <div style="font-size:9px; color:var(--g400);">Lvl. 3</div>
                 <div style="font-size:9px; color:var(--g400);">5 friends</div>
@@ -1016,7 +1033,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
             <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:10px;">
               <!-- L4 — Locked -->
               <div style="text-align:center;">
-                <div style="width:56px; height:56px; background:var(--g200); border-radius:50%; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:24px; opacity:0.4;">🏆</div>
+                <div style="width:56px; height:56px; background:var(--g200); border-radius:var(--mh-radius-full); margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:24px; opacity:0.4;">🏆</div>
                 <div style="font-size:10px; font-weight:700; color:var(--g500);">Credit Hero Champion</div>
                 <div style="font-size:9px; color:var(--g400);">Lvl. 4</div>
                 <div style="font-size:9px; color:var(--g400);">10 friends</div>
@@ -1028,8 +1045,8 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
 
           <!-- How does this work? (includes referral link) -->
           <div class="ann green" data-ann="REFERRAL LINK" style="background:#fff; border-radius:14px; padding:16px; border:1px solid var(--g200); margin-bottom:14px;">
-            <div style="font-size:14px; font-weight:800; margin-bottom:8px;">How Does This Work?</div>
-            <div style="font-size:12px; color:var(--g600); line-height:1.7; margin-bottom:14px;">
+            <div style="font-size:var(--mh-fs-body-2); font-weight:800; margin-bottom:8px;">How Does This Work?</div>
+            <div style="font-size:var(--mh-fs-caption); color:var(--g600); line-height:1.7; margin-bottom:14px;">
               Share your referral link with friends and family. When they sign up for Credit Hero Club and verify their identity, you'll earn progress towards your Credit Hero Champion badges. Each level requires more referrals — how far can you go?
             </div>
 
@@ -1037,7 +1054,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
 
             <div style="font-size:13px; font-weight:700; margin-bottom:4px;">Your Referral Link</div>
             <div style="font-size:11px; color:var(--g500); margin-bottom:10px;">Invite friends to join Credit Hero Club</div>
-            <div style="display:flex; align-items:center; gap:6px; background:var(--g50); border:1px solid var(--g200); border-radius:8px; padding:4px; margin-bottom:10px;">
+            <div style="display:flex; align-items:center; gap:6px; background:var(--g50); border:1px solid var(--g200); border-radius:var(--mh-radius-md); padding:4px; margin-bottom:10px;">
               <div style="flex:1; font-size:10px; color:var(--g600); padding:6px; font-family:monospace; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">creditheroclub.moneyhero.com.hk/?ref=SC7X2K</div>
               <button style="background:var(--g700); color:#fff; border:none; border-radius:6px; padding:6px 12px; font-size:10px; font-weight:600; cursor:pointer;" onclick="this.textContent='Copied!'; setTimeout(()=>this.textContent='Copy',1500)">Copy</button>
             </div>
@@ -1049,7 +1066,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
 
           <!-- Friends who joined -->
           <div style="background:#fff; border-radius:14px; padding:16px; border:1px solid var(--g200); margin-bottom:20px;">
-            <div style="font-size:14px; font-weight:800; margin-bottom:10px;">Friends Who Joined</div>
+            <div style="font-size:var(--mh-fs-body-2); font-weight:800; margin-bottom:10px;">Friends Who Joined</div>
             <div class="friend-row">
               <div class="friend-av">AW</div>
               <div class="friend-info">
@@ -1189,7 +1206,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
         <div class="flow-row">
           <div class="flow-node user">Member</div>
           <div class="flow-arrow">→</div>
-          <div class="flow-node" style="background:#EBF0FF; border-color:var(--mh-blue); color:var(--mh-blue); font-weight:600;">Native Share</div>
+          <div class="flow-node" style="background:var(--mh-primary-50); border-color:var(--mh-blue); color:var(--mh-blue); font-weight:600;">Native Share</div>
           <div class="flow-arrow">→</div>
           <div class="flow-node user">Friend</div>
           <div class="flow-arrow">→</div>
@@ -1293,7 +1310,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
       </div>
 
       <div class="flow-legend">
-        <div class="fl-item"><div class="fl-dot" style="background:#EBF0FF; border:1px solid var(--mh-blue);"></div> User</div>
+        <div class="fl-item"><div class="fl-dot" style="background:var(--mh-primary-50); border:1px solid var(--mh-blue);"></div> User</div>
         <div class="fl-item"><div class="fl-dot" style="background:#F0FFF4; border:1px solid var(--mh-green);"></div> Backend</div>
         <div class="fl-item"><div class="fl-dot" style="background:var(--mh-gold-light); border:1px solid #F0D88A;"></div> Data</div>
         <div class="fl-item"><div class="fl-dot" style="background:#F3E8FF; border:1px solid #D8B4FE;"></div> MoEngage</div>
@@ -1302,8 +1319,8 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
     </div>
 
     <!-- Summary -->
-    <div style="margin-top:16px; background:#fff; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,0.06); padding:24px;">
-      <h3 style="font-size:14px; font-weight:700; color:var(--mh-blue); margin-bottom:16px;">Total Effort Summary</h3>
+    <div style="margin-top:16px; background:#fff; border-radius:14px; box-shadow:var(--mh-shadow-default); padding:24px;">
+      <h3 style="font-size:var(--mh-fs-body-2); font-weight:700; color:var(--mh-blue); margin-bottom:16px;">Total Effort Summary</h3>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
         <div style="background:#F0FFF4; border:1px solid #C6F6D5; border-radius:10px; padding:16px;">
           <div style="font-size:11px; font-weight:700; color:#065F46; margin-bottom:8px;">v1 — BACKEND + CRM</div>
@@ -1314,7 +1331,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
             Adds ref code param to existing sign-up event
           </div>
         </div>
-        <div style="background:#EBF0FF; border:1px solid #BDD1F7; border-radius:10px; padding:16px;">
+        <div style="background:var(--mh-primary-50); border:1px solid var(--mh-primary-100); border-radius:10px; padding:16px;">
           <div style="font-size:11px; font-weight:700; color:var(--mh-blue); margin-bottom:8px;">v1 — CHALLENGE PAGE</div>
           <div style="font-size:24px; font-weight:800; color:var(--mh-blue);">~3–4 days</div>
           <div style="font-size:11px; color:var(--mh-blue); margin-top:4px; line-height:1.5;">
@@ -1324,7 +1341,7 @@ if(sessionStorage.getItem('proto-auth')==='1') document.getElementById('auth-gat
           </div>
         </div>
       </div>
-      <div style="margin-top:12px; padding:12px; background:var(--mh-gold-light); border:1px solid #F0D88A; border-radius:8px; font-size:12px; color:var(--g600); line-height:1.6;">
+      <div style="margin-top:12px; padding:12px; background:var(--mh-gold-light); border:1px solid #F0D88A; border-radius:var(--mh-radius-md); font-size:var(--mh-fs-caption); color:var(--g600); line-height:1.6;">
         <strong>Single launch</strong> — backend + CRM + challenge page ship together.<br>
         Referrals flow via MoEngage + native share. Challenge page gives members visibility + a second share surface.
       </div>
